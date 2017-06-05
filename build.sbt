@@ -1,3 +1,4 @@
+import sbt._
 
 organization := "org.rudogma"
 name := "supertagged"
@@ -35,6 +36,8 @@ scalacOptions ++= Seq(
   "-Ywarn-unused-import"
 )
 
+
+
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots")
@@ -47,6 +50,8 @@ libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % "2.3.2" % "test"
 )
 
+
+publishArtifact in (Compile, packageDoc) := true
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
@@ -64,3 +69,4 @@ scmInfo := Some(
   )
 )
 homepage := Some(url("https://github.com/Rudogma/scala-supertagged"))
+

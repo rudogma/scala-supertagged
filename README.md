@@ -21,6 +21,9 @@ Check out tests for all examples
 
 ## Classic way
 
+Original idea by [Miles Sabin](https://gist.github.com/milessabin/89c9b47a91017973a35f).
+Similar implementations are also available in [Shapeless](https://github.com/milessabin/shapeless) 
+and [Scalaz](https://github.com/scalaz/scalaz).
 ```scala
 import supertagged.@@
 
@@ -32,9 +35,9 @@ val value = @@[Width](5) // value is `Int @@ Width`
 
 ### Concepts
 
-```scala
 
-// Original idea to use base trait + companion type is from Alexander Semenov (https://github.com/Treev-io/tagged-types/)
+Original idea to use base trait + companion type is from Alexander Semenov[https://github.com/Treev-io/tagged-types/](https://github.com/Treev-io/tagged-types/)
+```scala
 object Width extends TaggedType[Int]
 type Width = Width.Type
 ```
@@ -57,7 +60,7 @@ object Width extends TaggedType[Int]
 type Width = Width.Type
 
 object Widths extends TaggedType[Array[Width]]
-type Widths = Widths
+type Widths = Widths.Type
 
 
 // bounded
