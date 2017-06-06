@@ -1,6 +1,6 @@
 
 [![Build status](https://img.shields.io/travis/Rudogma/scala-supertagged/master.svg)](https://travis-ci.org/Rudogma/scala-supertagged)
-
+[![Maven Central](https://img.shields.io/maven-central/v/org.rudogma/supertagged_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/org.rudogma/supertagged_2.12)
 
 # supertagged for scala
 Better (multi-nested-)tagged types for Scala, Intellij Idea autocomplete features working pretty fine.
@@ -12,7 +12,12 @@ Zero-dependcy 1 file, tests included.
 
 Scala: 2.11.11, 2.12.1, 2.12.2
 ```scala
-libraryDependencies += "org.rudogma" %% "supertagged" % "1.0"
+libraryDependencies += "org.rudogma" %% "supertagged" % "1.1"
+```
+
+ScalaJS (compiled with 0.6.16)
+```
+libraryDependencies += "org.rudogma" %%% "supertagged" % "1.1"
 ```
 
 # Usage
@@ -36,18 +41,27 @@ val value = @@[Width](5) // value is `Int @@ Width`
 ### Concepts
 
 
-Original idea to use base trait + companion type is from Alexander Semenov[https://github.com/Treev-io/tagged-types/](https://github.com/Treev-io/tagged-types/)
+Original idea to use base trait + companion type is from **Alexander Semenov** [https://github.com/Treev-io/tagged-types/](https://github.com/Treev-io/tagged-types/)
 ```scala
 object Width extends TaggedType[Int]
 type Width = Width.Type
 ```
 
+**Unified syntax**
 
-```@@``` - Adds one more tag to existing tags (if no tags then adds one)
+**```@@```** - Adds one more tag to existing tags (if no tags then adds one)
 
-```!@@``` - Replaces all existing tags with 1 new (if no tags then adds one)
+**```!@@```** - Replaces all existing tags with 1 new (if no tags then adds one)
 
-```untag``` - For removing concrete tag
+**```untag```** - For removing concrete tag
+
+**Auto tagging at any nested level**
+
+No matter how many levels, it will stop automatically at appropriate (top level, middle or tail nested)  (or fail if u used inappropriate types)
+```scala
+Widths @@ ( Width @@ Array(Array(Array(Array(Array(1,2,3)))))) // Result: `array_5lvl_OfWidth: Array[Array[Array[Array[Array[Int @@ Width] @@ Widths]]]]]`
+```
+
 
 
 ### Tagging
@@ -157,7 +171,7 @@ trait UserId
 Example 1:
 ```scala
 import supertagged._
-implicit val lifter = lifterF[Serializer] // `import supertagged._` + `implicit val lifter` will automaticall lift all Serializer[T] to Serializer[T @@ WhatTagImplicitNeeds]
+implicit val lifter = lifterF[Serializer] // `import supertagged._` + `implicit val lifter` will auto lift all Serializer[T] to Serializer[T @@ WhatTagImplicitNeeds]
 
 val longNumber = 30L
 val id = tag[UserId](longNumber)
@@ -168,7 +182,7 @@ serialize(id) // `val longSerializer:Serializer[Long]` will be lifted to `Serial
 
 Example 2:
 ```scala
-import supertagged.liftAnyF // will lify any F[T] to F[T @@ WhatTagImplicitNeeds] when needed
+import supertagged.liftAnyF // will lift any F[T] to F[T @@ WhatTagImplicitNeeds] when needed
 
 val longNumber = 30L
 val id = tag[UserId](longNumber)

@@ -1,5 +1,7 @@
 package supertaggedtests
 
+import supertagged.{Tag, TaggedType}
+
 object TestBoxing extends App {
 
 
@@ -24,5 +26,29 @@ object TestBoxing extends App {
     * This specific boxing is not a big price for features we have got.
     * This, micro bench and other nuances allow us to ignore some `boilerplate bytecode` that will be cleaned by JIT
     */
+
+
+  import supertagged._
+
+
+  class Item {
+    var value:Int = 5
+  }
+
+  object OTag extends TaggedType[Item]
+  type OTag = OTag.Type
+
+
+  val item = new Item
+  val v = OTag @@ item
+
+
+  if(!v.isInstanceOf[OTag]){
+    throw new RuntimeException("v must be instanceOf OTag.Type, because in runtime OTag.Type is just Item ")
+  }
+
+  if(v.isInstanceOf[Tag[_,_]]){
+    throw new RuntimeException("v must NOT be instanceOf trait Tag[_,_], because it is erasured in compile time")
+  }
 
 }
