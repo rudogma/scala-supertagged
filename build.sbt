@@ -1,12 +1,13 @@
 import sbt._
 
+organization := "org.rudogma"
 name := "supertagged"
 
 
 val SCALA_VERSION = "2.12.2"
 
 scalaVersion in ThisBuild := SCALA_VERSION
-crossScalaVersions in ThisBuild := Seq("2.11.11", "2.12.2")
+crossScalaVersions in ThisBuild := Seq("2.12.2", "2.11.11")
 releaseCrossBuild := true
 
 scalacOptions in ThisBuild ++= Seq(
@@ -21,6 +22,12 @@ scalacOptions in ThisBuild ++= Seq(
   "-Ywarn-unused-import"
 )
 
+
+publishTo in ThisBuild := Some(if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)
+publishMavenStyle := true
+pomIncludeRepository := (_ => false)
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
+
 lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
   organization := "org.rudogma",
   name := "supertagged",
@@ -32,16 +39,10 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
     "mikhail@rudogma.org",
     url("https://github.com/Rudogma")
   ),
-  licenses += ("BSD New", url("https://opensource.org/licenses/BSD-3-Clause")),
-
-
-  publishArtifact in(Compile, packageDoc) := true,
-
-  releasePublishArtifactsAction := PgpKeys.publishSigned.value,
 
   publishMavenStyle := true,
-  publishTo := Some(if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging),
   pomIncludeRepository := (_ => false),
+  releasePublishArtifactsAction := PgpKeys.publishSigned.value,
 
   licenses += ("BSD New", url("https://opensource.org/licenses/BSD-3-Clause")),
   scmInfo := Some(
@@ -63,7 +64,7 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
 
 lazy val cross =
   crossProject.in(file("."))
-    .settings( commonSettings)
+    .settings(commonSettings)
 
 lazy val jvm = cross.jvm
 lazy val js = cross.js
@@ -72,7 +73,6 @@ lazy val root =
   project.in(file("."))
     .aggregate(jvm, js)
     .settings(
-      moduleName := "supertagged",
       publish := {},
       publishLocal := {},
       publishArtifact := false
