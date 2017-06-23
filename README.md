@@ -16,7 +16,7 @@ libraryDependencies += "org.rudogma" %% "supertagged" % "1.1"
 ```
 
 ScalaJS (compiled with 0.6.16)
-```
+```scala
 libraryDependencies += "org.rudogma" %%% "supertagged" % "1.1"
 ```
 
@@ -38,13 +38,23 @@ val value = @@[Width](5) // value is `Int @@ Width`
 
 ## New way
 
-### Concepts
+### Concepts and Features
 
 
-Original idea to use base trait + companion type is from **Alexander Semenov** [https://github.com/Treev-io/tagged-types/](https://github.com/Treev-io/tagged-types/)
+Tagging Primitive, Class or any Trait types (and Multi Tagging). Original idea to use base trait + companion type is from **Alexander Semenov** [https://github.com/Treev-io/tagged-types/](https://github.com/Treev-io/tagged-types/)
 ```scala
+//
 object Width extends TaggedType[Int]
-type Width = Width.Type
+type Width = Width.Type 
+```
+
+Overtagging. Original idea from Me. Heavily used in **Scala Superquants** [https://github.com/Rudogma/scala-superquants](https://github.com/Rudogma/scala-superquants)
+```scala
+object Time extends TaggedType[Long]
+type Time[T] = (Long with Tag[Long, Time.Tag]) @@ T
+
+object Seconds extends OverTagged(Time)
+type Seconds = Seconds.Type
 ```
 
 **Unified syntax**
@@ -78,8 +88,8 @@ type Widths = Widths.Type
 
 
 // bounded
-def Offsets[T] = new TaggedType[Array[T]]
-type Offsets[T] = TaggedType[T]#Type
+def Widths[T] = TaggedTypeF[Array[T]]
+type Widths[T] = TaggedTypeF[Array[T]]#Type
 
 ```
 

@@ -19,7 +19,6 @@ class TestBoundedTaggedTypes extends FlatSpec with Matchers {
     val widths = Widths[Int] @@ wrappedList
     val widthsCounter = Widths[Counter] @@ (Counter @@ wrappedList)
 
-
     fromWidthsInt(widths.head) shouldBe 1
     fromWidthsCounter(widthsCounter.head) shouldBe 1
 
@@ -35,8 +34,8 @@ class TestBoundedTaggedTypes extends FlatSpec with Matchers {
 
 object TestBoundedTaggedTypes {
 
-  def Widths[T] = new TaggedType[Array[T]] {}
-  type Widths[T] = TaggedType[Array[T]]#Type
+  def Widths[T] = TaggedTypeF[Array[T]]
+  type Widths[T] = TaggedTypeF[Array[T]]#Type
 
 
 }

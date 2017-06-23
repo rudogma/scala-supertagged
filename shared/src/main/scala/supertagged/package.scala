@@ -50,9 +50,11 @@ package object supertagged {
     def apply[T](v: T): T @@ U = cast(v)
   }
 
-  def tag[U] = new ClassicTagger[U] {}
+  private val classicStub = new ClassicTagger[Nothing] {}
 
-  def @@[U] = new ClassicTagger[U] {}
+  def tag[U]:ClassicTagger[U] = cast(classicStub)
+
+  def @@[U]:ClassicTagger[U] = cast(classicStub)
 
   def untag[T, U](value: T @@ U): T = value
 
@@ -98,7 +100,7 @@ package object supertagged {
       * for any additional anchor trait. All right for now :)
       *
       */
-    type Tag = this.type
+    type Tag <: this.type
 
 
     type Raw = T
@@ -128,8 +130,31 @@ package object supertagged {
     def untag[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.Untagged = cast(c)
 
 
+    def raw(c:Type):Raw = c
+//    def tagRaw(raw:T):T @@ Tag = cast(raw)
+
+
     implicit def ordering[U](implicit origin:Ordering[T]):Ordering[T @@ U] = cast(origin)
   }
+
+  /**
+    * New name: Overtagged
+    */
+  class OverTagged[R, T <: TaggedType[R]](val nested:T with TaggedType[R]) extends TaggedType[T#Type]{
+//    override type Tag = T#Tag with this.type
+  }
+
+  /**
+    * Need one more trait in chain. Do not cut and optimize it!
+    */
+  trait TaggedTypeF[T] extends TaggedType[T]
+
+  private val taggetTypeFStub = new TaggedTypeF[Nothing] {}
+
+  def TaggedTypeF[T]:TaggedTypeF[T]= cast(taggetTypeFStub)
+
+
+
 
 
   /**
@@ -159,11 +184,7 @@ package object supertagged {
 
   object Tagger {
 
-    private val dummyTaggerStub = new Tagger[Nothing, Nothing, Nothing, Nothing, Nothing] {
-      type Out = Nothing
-      type OutReplaced = Nothing
-      type Raw = Nothing
-    }
+    private val dummyTaggerStub = new Tagger[Nothing, Nothing, Nothing, Nothing, Nothing] {}
 
     def dummyTagger[T]: T = cast(dummyTaggerStub)
 
