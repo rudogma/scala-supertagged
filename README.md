@@ -12,12 +12,12 @@ Zero-dependcy 1 file, tests included.
 
 Scala: 2.11.11, 2.12.1, 2.12.2
 ```scala
-libraryDependencies += "org.rudogma" %% "supertagged" % "1.1"
+libraryDependencies += "org.rudogma" %% "supertagged" % "1.2"
 ```
 
-ScalaJS (compiled with 0.6.16)
+ScalaJS (compiled with 0.6.17)
 ```scala
-libraryDependencies += "org.rudogma" %%% "supertagged" % "1.1"
+libraryDependencies += "org.rudogma" %%% "supertagged" % "1.2"
 ```
 
 # Usage
