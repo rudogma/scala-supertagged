@@ -14,6 +14,7 @@
   **/
 
 
+import scala.language.implicitConversions
 import scala.language.higherKinds
 
 
@@ -157,6 +158,57 @@ package object supertagged {
 
 
 
+
+
+
+
+
+  /**
+    * NEW TYPES (based on Miles Sabin shapeless.newtype )
+    */
+
+  //Needs anonymous {}, because `trait` will be materialized and will not compile
+  type Newtype[Repr, Ops] = { type T = Tag[Repr, Ops] }
+
+  implicit def newtypeOps[Repr, Ops](t : Newtype[Repr, Ops])(implicit mkOps : Repr => Ops) : Ops = t.asInstanceOf[Repr]
+
+  trait NewType[T, Tag0] {
+
+    type Tag = Tag0
+    type Raw = T
+    type Type = T @@ Tag
+    type NewType = Newtype[T, Tag]
+
+
+
+    def apply[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.NewType = c.asInstanceOf[T with tagger.NewType]
+    def @@[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.NewType = c.asInstanceOf[T with tagger.NewType]
+
+
+    def raw(c:NewType):T = c.asInstanceOf[T]
+  }
+
+
+  trait NewTypeF[R, Tag] extends NewType[R, Tag]
+
+  private val newTypeFStub = new NewTypeF[Nothing, Nothing] {}
+
+  def NewTypeF[Raw,Tag]:NewTypeF[Raw,Tag]= cast(newTypeFStub)
+
+
+
+  /** --- END NEW TYPES --- **/
+
+
+
+
+
+
+
+
+
+
+
   /**
     * For pretty coding `value @@ MyTag`
     */
@@ -180,6 +232,7 @@ package object supertagged {
     type Out
     type OutReplaced
     type Untagged
+    type NewType
   }
 
   object Tagger {
@@ -189,29 +242,30 @@ package object supertagged {
     def dummyTagger[T]: T = cast(dummyTaggerStub)
 
 
-    type Aux[Out0, OutR0, Untagged0, TagIn, Tag, U, SubType, C] = Tagger[TagIn, Tag, U, SubType, C] {
+    type Aux[Out0, OutR0, Untagged0, NewType0, TagIn, Tag, U, SubType, C] = Tagger[TagIn, Tag, U, SubType, C] {
       type Out = Out0
       type OutReplaced = OutR0
       type Untagged = Untagged0
+      type NewType = NewType0
     }
 
 
-    implicit def recurС2[TagNew, TaggedNew <: Tagged[_, TagNew], TagIn, SubType, InnerC[_], OuterC[_]](implicit nested: Tagger[TagIn, TaggedNew, TagNew, SubType, InnerC[SubType]]): Aux[OuterC[nested.Out], OuterC[nested.OutReplaced], OuterC[nested.Untagged], TagIn, TaggedNew, TagNew, InnerC[SubType], OuterC[InnerC[SubType]]] = dummyTagger
+    implicit def recurС2[TagNew, TaggedNew <: Tagged[_, TagNew], TagIn, SubType, InnerC[_], OuterC[_]](implicit nested: Tagger[TagIn, TaggedNew, TagNew, SubType, InnerC[SubType]]): Aux[OuterC[nested.Out], OuterC[nested.OutReplaced], OuterC[nested.Untagged], OuterC[nested.NewType], TagIn, TaggedNew, TagNew, InnerC[SubType], OuterC[InnerC[SubType]]] = dummyTagger
 
 
-    implicit def recurС[TagNew, TaggedNew <: Tagged[Raw, TagNew], TagIn, Raw, InnerC[_], OuterC[_]](implicit nested: Tagger[TagIn, TaggedNew, TagNew, Raw, InnerC[Raw @@ TagIn]]): Aux[OuterC[InnerC[Raw @@ (TagIn with TagNew)]], OuterC[InnerC[Raw @@ TagNew]], OuterC[InnerC[Raw]], TagIn, TaggedNew, TagNew, InnerC[Raw @@ TagIn], OuterC[InnerC[Raw @@ TagIn]]] = dummyTagger
+    implicit def recurС[TagNew, TaggedNew <: Tagged[Raw, TagNew], TagIn, Raw, InnerC[_], OuterC[_]](implicit nested: Tagger[TagIn, TaggedNew, TagNew, Raw, InnerC[Raw @@ TagIn]]): Aux[OuterC[InnerC[Raw @@ (TagIn with TagNew)]], OuterC[InnerC[Raw @@ TagNew]], OuterC[InnerC[Raw]], OuterC[InnerC[Newtype[Raw,TagNew]]], TagIn, TaggedNew, TagNew, InnerC[Raw @@ TagIn], OuterC[InnerC[Raw @@ TagIn]]] = dummyTagger
 
 
-    implicit def baseС[TagIn, TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw, C[_]]: Aux[C[Raw @@ (TagIn with TagNew)], C[Raw @@ TagNew], C[Raw], TagIn, TaggedNew, TagNew, Raw, C[Raw @@ TagIn]] = dummyTagger
+    implicit def baseС[TagIn, TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw, C[_]]: Aux[C[Raw @@ (TagIn with TagNew)], C[Raw @@ TagNew], C[Raw], C[Newtype[Raw,TagNew]], TagIn, TaggedNew, TagNew, Raw, C[Raw @@ TagIn]] = dummyTagger
 
 
-    implicit def baseСRaw[TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw, C[_]]: Aux[C[Raw @@ TagNew], C[Raw @@ TagNew], C[Raw], TagNew, TaggedNew, TagNew, Raw, C[Raw]] = dummyTagger
+    implicit def baseСRaw[TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw, C[_]]: Aux[C[Raw @@ TagNew], C[Raw @@ TagNew], C[Raw], C[Newtype[Raw,TagNew]], TagNew, TaggedNew, TagNew, Raw, C[Raw]] = dummyTagger
 
 
-    implicit def baseTagged[TagIn, TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw]: Aux[Raw @@ (TagIn with TagNew), Raw @@ TagNew, Raw, TagIn, TaggedNew, TagNew, Raw, Raw @@ TagIn] = dummyTagger
+    implicit def baseTagged[TagIn, TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw]: Aux[Raw @@ (TagIn with TagNew), Raw @@ TagNew, Raw, Newtype[Raw,TagNew], TagIn, TaggedNew, TagNew, Raw, Raw @@ TagIn] = dummyTagger
 
 
-    implicit def baseRaw[TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw]: Aux[Raw @@ TagNew, Raw @@ TagNew, Raw, TagNew, TaggedNew, TagNew, Raw, Raw] = dummyTagger
+    implicit def baseRaw[TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw]: Aux[Raw @@ TagNew, Raw @@ TagNew, Raw, Newtype[Raw,TagNew], TagNew, TaggedNew, TagNew, Raw, Raw] = dummyTagger
 
   }
 

@@ -37,7 +37,5 @@ lazy val root = project.in(file("."))
 lazy val supertaggedJVM = supertagged.jvm
 lazy val supertaggedJS = supertagged.js
 //lazy val supertaggedNative = supertagged.native.settings(
-//  scalaVersion in ThisBuild := "2.11.11",
-//  scalaVersion := "2.11.11",
-//  crossScalaVersions in ThisBuild := Seq("2.11.11")
+//  sources in (Compile,doc) := Seq.empty
 //)

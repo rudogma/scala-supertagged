@@ -4,7 +4,7 @@ import sbt._
 
 
 object Versions {
-  val Supertagged = "1.2"
+  val Supertagged = "1.3"
   val Scala = "2.12.2"
   val ScalaCross = Seq("2.12.2", "2.11.11")
 

@@ -12,12 +12,12 @@ Zero-dependcy 1 file, tests included.
 
 Scala: 2.11.11, 2.12.1, 2.12.2
 ```scala
-libraryDependencies += "org.rudogma" %% "supertagged" % "1.2"
+libraryDependencies += "org.rudogma" %% "supertagged" % "1.3"
 ```
 
 ScalaJS (compiled with 0.6.17)
 ```scala
-libraryDependencies += "org.rudogma" %%% "supertagged" % "1.2"
+libraryDependencies += "org.rudogma" %%% "supertagged" % "1.3"
 ```
 
 # Usage
@@ -72,6 +72,10 @@ No matter how many levels, it will stop automatically at appropriate (top level,
 Widths @@ ( Width @@ Array(Array(Array(Array(Array(1,2,3)))))) // Result: `array_5lvl_OfWidth: Array[Array[Array[Array[Array[Int @@ Width] @@ Widths]]]]]`
 ```
 
+
+### Newtypes
+
+Look into file for examples: [TestNewTypes.scala](https://github.com/Rudogma/scala-superquants/blob/master/shared/src/test/scala/superquantstests/TestNewTypes.scala)
 
 
 ### Tagging
