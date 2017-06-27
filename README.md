@@ -75,7 +75,7 @@ Widths @@ ( Width @@ Array(Array(Array(Array(Array(1,2,3)))))) // Result: `array
 
 ### Newtypes
 
-Look into file for examples: [TestNewTypes.scala](https://github.com/Rudogma/scala-superquants/blob/master/shared/src/test/scala/superquantstests/TestNewTypes.scala)
+Look into file for examples: [TestNewTypes.scala](https://github.com/Rudogma/scala-supertagged/blob/master/shared/src/test/scala/supertaggedtests/TestNewTypes.scala)
 
 
 ### Tagging
