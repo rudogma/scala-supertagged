@@ -1,5 +1,5 @@
 
-[![Build status](https://img.shields.io/travis/Rudogma/scala-supertagged/master.svg)](https://travis-ci.org/Rudogma/scala-supertagged)
+[![Build status](https://img.shields.io/travis/rudogma/scala-supertagged/master.svg)](https://travis-ci.org/rudogma/scala-supertagged)
 [![Maven Central](https://img.shields.io/maven-central/v/org.rudogma/supertagged_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/org.rudogma/supertagged_2.12)
 
 # supertagged for scala
@@ -91,9 +91,16 @@ object Widths extends TaggedType[Array[Width]]
 type Widths = Widths.Type
 
 
-// bounded
-def Widths[T] = TaggedTypeF[Array[T]]
-type Widths[T] = TaggedTypeF[Array[T]]#Type
+// bounded. Look at examples in TestBoundedTaggedTypes.scala
+import supertagged.{ TaggedTypeF, TaggedTypeFF }
+
+object Post extends TaggedTypeF
+type Post[T] = Post.Type[T]
+
+object Widths extends TaggedTypeFF[Array]
+type Widths[T] = Widths.Type[T]
+
+
 
 ```
 

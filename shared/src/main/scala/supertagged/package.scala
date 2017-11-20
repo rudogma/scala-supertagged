@@ -131,7 +131,7 @@ package object supertagged {
     def untag[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.Untagged = cast(c)
 
 
-    def raw(c:Type):Raw = c
+    def raw(c:Type):T = c
 //    def tagRaw(raw:T):T @@ Tag = cast(raw)
 
 
@@ -148,12 +148,34 @@ package object supertagged {
   /**
     * Need one more trait in chain. Do not cut and optimize it!
     */
-  trait TaggedTypeF[T] extends TaggedType[T]
 
-  private val taggetTypeFStub = new TaggedTypeF[Nothing] {}
+  /**
+    * Temporary, subject to change in future
+    * For cases where ONLY tagged type parameterized by type. See examples in TestBoundedTaggedTypes.scala
+    */
+  trait TaggedTypeF {
+    trait TypeF[T] extends TaggedType[T]
 
-  def TaggedTypeF[T]:TaggedTypeF[T]= cast(taggetTypeFStub)
+    private lazy val stub = new TypeF[Nothing] {}
 
+    type Type[T] = TypeF[T]#Type
+
+    def apply[T]:TypeF[T] = cast(stub)
+  }
+
+  /**
+    * Temporary, subject to change in future
+    * For cases where both tagged type and base with parameterized by type. See examples in TestBoundedTaggedTypes.scala
+    */
+  trait TaggedTypeFF[F[_]] {
+    trait TypeF[T] extends TaggedType[T]
+
+    private lazy val stub = new TypeF[Nothing] {}
+
+    type Type[T] = TypeF[F[T]]#Type
+
+    def apply[T]:TypeF[F[T]] = cast(stub)
+  }
 
 
 

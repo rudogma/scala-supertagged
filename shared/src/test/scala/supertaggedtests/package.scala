@@ -29,8 +29,6 @@ package object supertaggedtests {
   type Counters = Counters.Type
 
 
-  def Offsets[T] = TaggedTypeF[Array[T]] //new TaggedType[Array[T]] {}
-  type Offsets[T] = TaggedType[Array[T]]#Type
 
 
 
