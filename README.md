@@ -91,7 +91,9 @@ object Widths extends TaggedType[Array[Width]]
 type Widths = Widths.Type
 
 
-// bounded. Look at examples in TestBoundedTaggedTypes.scala
+// bounded
+// Look at releases tab for notes on 1.4
+// Look for examples in TestBoundedTaggedTypes.scala
 import supertagged.{ TaggedTypeF, TaggedTypeFF }
 
 object Post extends TaggedTypeF
