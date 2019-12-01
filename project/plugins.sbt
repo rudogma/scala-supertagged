@@ -4,7 +4,7 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.0")
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.5")
 
 
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.17")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.31")
 
 addSbtPlugin("org.scala-native" % "sbt-crossproject" % "0.1.0")
 

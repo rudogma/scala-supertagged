@@ -10,14 +10,14 @@ Zero-dependcy 1 file, tests included.
 
 ## sbt
 
-Scala: 2.11.11, 2.12.1, 2.12.2
+Scala: 2.11, 2.12, 2.13
 ```scala
-libraryDependencies += "org.rudogma" %% "supertagged" % "1.4"
+libraryDependencies += "org.rudogma" %% "supertagged" % "1.5"
 ```
 
-ScalaJS (compiled with 0.6.17)
+ScalaJS (compiled for 0.6.x)
 ```scala
-libraryDependencies += "org.rudogma" %%% "supertagged" % "1.4"
+libraryDependencies += "org.rudogma" %%% "supertagged" % "1.5"
 ```
 
 # Usage
