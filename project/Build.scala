@@ -1,12 +1,13 @@
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
+import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport.toPlatformDepsGroupID
 import sbt.Keys._
 import sbt._
 
 
 object Versions {
-  val Supertagged = "1.4"
-  val Scala = "2.12.2"
-  val ScalaCross = Seq("2.12.2", "2.11.11")
+  val Supertagged = "1.5"
+  val Scala = "2.13.1"
+  val ScalaCross = Seq("2.13.1", "2.12.10", "2.11.11")
 
 }
 
@@ -33,11 +34,10 @@ object Compiler {
       "-feature",
       "-unchecked",
       "-Xfatal-warnings",
-      "-Yno-adapted-args",
       "-Ywarn-numeric-widen",
       "-Ywarn-value-discard",
       "-Ywarn-unused-import"
-    ),
+    ) ++ (if (CrossVersion.partialVersion(scalaVersion.value).exists(_._2 != 13)) Seq("-Yno-adapted-args") else Seq()),
 
     scalaVersion in ThisBuild := Versions.Scala,
     crossScalaVersions := Versions.ScalaCross
@@ -83,10 +83,10 @@ object Publish {
 object Tests {
   val defaultSettings = Seq(
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "spire" % "0.14.1" % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.3" % "test",
-      "org.scalacheck" %%% "scalacheck" % "1.13.5" % "test",
-      "com.chuusai" %%% "shapeless" % "2.3.2" % "test"
+      "org.typelevel" %%% "spire" % "0.17.0-M1" % "test",
+      "org.scalatest" %%% "scalatest" % "3.1.0" % "test",
+      "org.scalacheck" %%% "scalacheck" % "1.14.2" % "test",
+      "com.chuusai" %%% "shapeless" % "2.3.3" % "test"
     )
   )
 }
