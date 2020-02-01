@@ -125,8 +125,8 @@ object Tests {
     ),
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "spire" % "0.17.0-M1" % "test",
-      "org.scalatest" %%% "scalatest" % "3.1.0" % "test",
-      "org.scalacheck" %%% "scalacheck" % "1.14.2" % "test",
+      "org.scalatest" %%% "scalatest" % "3.1.2" % "test",
+      "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test",
       "com.chuusai" %%% "shapeless" % "2.3.3" % "test"
     ),
     excludeFilter in (Test, unmanagedSources) := {

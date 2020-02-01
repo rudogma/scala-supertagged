@@ -38,10 +38,3 @@ lazy val root = project.in(file("."))
 lazy val supertaggedJVM = supertagged.jvm
 lazy val supertaggedJS = supertagged.js
 lazy val supertaggedNative = supertagged.native.settings(Project.moduleNativeSettings  : _*)
-
-/*
- * Uncomment, if You need scala.native version and manually publish it locally
- */
-//lazy val supertaggedNative = supertagged.native.settings(
-//  sources in (Compile,doc) := Seq.empty
-//)
