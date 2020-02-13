@@ -1,11 +1,12 @@
-package supertaggedtests
+package supertaggedtests.tagged
 
-import org.scalatest._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 import shapeless.test.illTyped
+import supertagged.postfix._
+import supertaggedtests.{userString, userStrings_1_lvl, userStrings_5_lvl}
 
-import supertagged._
-
-class TestPostfixSyntax  extends FlatSpec with Matchers {
+class PostfixSyntax  extends AnyFlatSpec with Matchers {
 
 
 
@@ -26,8 +27,8 @@ class TestPostfixSyntax  extends FlatSpec with Matchers {
     val userList_5_lvl = userStrings_5_lvl @@ User1
 
 
-    illTyped("""UserInt(userStrings_1_lvl)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
-    illTyped("""UserInt(userStrings_5_lvl)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
+    illTyped("""UserInt(userStrings_1_lvl)""", "could not find implicit value for parameter R.+")
+    illTyped("""UserInt(userStrings_5_lvl)""", "could not find implicit value for parameter R.+")
 
 
     val head1 = userList_1_lvl.head

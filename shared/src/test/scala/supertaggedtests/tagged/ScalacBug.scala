@@ -1,12 +1,12 @@
-package supertaggedtests
+package supertaggedtests.tagged
 
-import org.scalatest.{FlatSpec, Matchers}
-import shapeless.test.illTyped
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class TestScalacBug extends FlatSpec with Matchers  {
+class ScalacBug extends AnyFlatSpec with Matchers  {
 
-  "Very specific bug `polymorphic expression`" should "exists" in {
+  "Very specific bug `polymorphic expression`" should "absent" in {
 
     /**
       * Be very attentive
@@ -14,8 +14,13 @@ class TestScalacBug extends FlatSpec with Matchers  {
 
     {
       //Scalac Bug is here. It doesn't compile - and it is bug
-      illTyped("""test(Counter @@ Array(1,2,3))""","polymorphic expression cannot be instantiated to expected type;.+")
-      illTyped("""test(Counters @@ (Counter @@ Array(1,2,3)))""","polymorphic expression cannot be instantiated to expected type;.+")
+//      illTyped("""test(Counter @@ Array(1,2,3))""","polymorphic expression cannot be instantiated to expected type;.+")
+//      illTyped("""test(Counters @@ (Counter @@ Array(1,2,3)))""","polymorphic expression cannot be instantiated to expected type;.+")
+
+
+      // ! No more scalac bug
+      test(Counter @@ Array(1,2,3))
+      test(Counters @@ (Counter @@ Array(1,2,3)))
 
     }
 

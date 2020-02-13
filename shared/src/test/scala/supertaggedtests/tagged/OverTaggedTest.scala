@@ -1,12 +1,14 @@
-package supertaggedtests
+package supertaggedtests.tagged
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 import shapeless.test.illTyped
 import supertagged._
-import supertaggedtests.TestOverTagged._
+
+import OverTaggedTest._
 
 
-class TestOverTagged extends FlatSpec with Matchers {
+class OverTaggedTest extends AnyFlatSpec with Matchers {
 
   "TestTaggedTypeForTaggedType" should "work" in {
 
@@ -35,9 +37,11 @@ class TestOverTagged extends FlatSpec with Matchers {
   def testMinutes(v:Minutes):Unit = {}
 }
 
-object TestOverTagged {
+object OverTaggedTest {
 
   object Time extends TaggedType[Long]
+  // Here we use fqn `Long with Tag[Long, Time.Tag]` in order to help Intellij Idea with hints and red marks.
+  // Scalac works fine and with short ones
   type Time[T] = (Long with Tag[Long, Time.Tag]) @@ T
 
 

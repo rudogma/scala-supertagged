@@ -1,0 +1,498 @@
+  Size 4556 bytes
+  MD5 checksum 6d297027fc2c95e1ab2a861ba4954eb1
+  Compiled from "ShowMeByteCode.scala"
+public final class supertaggedtests.misc.ShowMeByteCode$
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_FINAL, ACC_SUPER
+Constant pool:
+    #1 = Utf8               supertaggedtests/misc/ShowMeByteCode$
+    #2 = Class              #1            // supertaggedtests/misc/ShowMeByteCode$
+    #3 = Utf8               java/lang/Object
+    #4 = Class              #3            // java/lang/Object
+    #5 = Utf8               ShowMeByteCode.scala
+    #6 = Utf8               java/lang/invoke/MethodHandles$Lookup
+    #7 = Class              #6            // java/lang/invoke/MethodHandles$Lookup
+    #8 = Utf8               java/lang/invoke/MethodHandles
+    #9 = Class              #8            // java/lang/invoke/MethodHandles
+   #10 = Utf8               Lookup
+   #11 = Utf8               supertaggedtests/newtypes/package$Step1$
+   #12 = Class              #11           // supertaggedtests/newtypes/package$Step1$
+   #13 = Utf8               supertaggedtests/newtypes/package
+   #14 = Class              #13           // supertaggedtests/newtypes/package
+   #15 = Utf8               Step1$
+   #16 = Utf8               supertaggedtests/newtypes/package$Step1$Ops
+   #17 = Class              #16           // supertaggedtests/newtypes/package$Step1$Ops
+   #18 = Utf8               Ops
+   #19 = Utf8               supertaggedtests/newtypes/package$Step1$Ops$
+   #20 = Class              #19           // supertaggedtests/newtypes/package$Step1$Ops$
+   #21 = Utf8               Ops$
+   #22 = Utf8               supertaggedtests/tagged/package$UserInt$
+   #23 = Class              #22           // supertaggedtests/tagged/package$UserInt$
+   #24 = Utf8               supertaggedtests/tagged/package
+   #25 = Class              #24           // supertaggedtests/tagged/package
+   #26 = Utf8               UserInt$
+   #27 = Utf8               MODULE$
+   #28 = Utf8               Lsupertaggedtests/misc/ShowMeByteCode$;
+   #29 = Utf8               tagged_int
+   #30 = Utf8               I
+   #31 = Utf8               tagged_array_int
+   #32 = Utf8               [I
+   #33 = Utf8               newtype_int
+   #34 = Utf8               Ljava/lang/Object;
+   #35 = Utf8               newtype_array_int
+   #36 = Utf8               [Ljava/lang/Object;
+   #37 = Utf8               <clinit>
+   #38 = Utf8               ()V
+   #39 = Utf8               <init>
+   #40 = NameAndType        #39:#38       // "<init>":()V
+   #41 = Methodref          #2.#40        // supertaggedtests/misc/ShowMeByteCode$."<init>":()V
+   #42 = Utf8               ()I
+   #43 = NameAndType        #29:#30       // tagged_int:I
+   #44 = Fieldref           #2.#43        // supertaggedtests/misc/ShowMeByteCode$.tagged_int:I
+   #45 = Utf8               this
+   #46 = Utf8               ()[I
+   #47 = NameAndType        #31:#32       // tagged_array_int:[I
+   #48 = Fieldref           #2.#47        // supertaggedtests/misc/ShowMeByteCode$.tagged_array_int:[I
+   #49 = Utf8               ()Ljava/lang/Object;
+   #50 = NameAndType        #33:#34       // newtype_int:Ljava/lang/Object;
+   #51 = Fieldref           #2.#50        // supertaggedtests/misc/ShowMeByteCode$.newtype_int:Ljava/lang/Object;
+   #52 = Utf8               ()[Ljava/lang/Object;
+   #53 = NameAndType        #35:#36       // newtype_array_int:[Ljava/lang/Object;
+   #54 = Fieldref           #2.#53        // supertaggedtests/misc/ShowMeByteCode$.newtype_array_int:[Ljava/lang/Object;
+   #55 = Utf8               tagged_unapply
+   #56 = Utf8               Lsupertaggedtests/tagged/package$UserInt$;
+   #57 = NameAndType        #27:#56       // MODULE$:Lsupertaggedtests/tagged/package$UserInt$;
+   #58 = Fieldref           #23.#57       // supertaggedtests/tagged/package$UserInt$.MODULE$:Lsupertaggedtests/tagged/package$UserInt$;
+   #59 = Utf8               scala/runtime/BoxesRunTime
+   #60 = Class              #59           // scala/runtime/BoxesRunTime
+   #61 = Utf8               boxToInteger
+   #62 = Utf8               (I)Ljava/lang/Integer;
+   #63 = NameAndType        #61:#62       // boxToInteger:(I)Ljava/lang/Integer;
+   #64 = Methodref          #60.#63       // scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+   #65 = Utf8               supertagged/Replace$
+   #66 = Class              #65           // supertagged/Replace$
+   #67 = Utf8               Lsupertagged/Replace$;
+   #68 = NameAndType        #27:#67       // MODULE$:Lsupertagged/Replace$;
+   #69 = Fieldref           #66.#68       // supertagged/Replace$.MODULE$:Lsupertagged/Replace$;
+   #70 = Utf8               base
+   #71 = Utf8               ()Lsupertagged/Replace;
+   #72 = NameAndType        #70:#71       // base:()Lsupertagged/Replace;
+   #73 = Methodref          #66.#72       // supertagged/Replace$.base:()Lsupertagged/Replace;
+   #74 = Utf8               apply
+   #75 = Utf8               (Ljava/lang/Object;Lsupertagged/Replace;)Ljava/lang/Object;
+   #76 = NameAndType        #74:#75       // apply:(Ljava/lang/Object;Lsupertagged/Replace;)Ljava/lang/Object;
+   #77 = Methodref          #23.#76       // supertaggedtests/tagged/package$UserInt$.apply:(Ljava/lang/Object;Lsupertagged/Replace;)Ljava/lang/Object;
+   #78 = Utf8               unboxToInt
+   #79 = Utf8               (Ljava/lang/Object;)I
+   #80 = NameAndType        #78:#79       // unboxToInt:(Ljava/lang/Object;)I
+   #81 = Methodref          #60.#80       // scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+   #82 = Utf8               scala/reflect/ClassTag$
+   #83 = Class              #82           // scala/reflect/ClassTag$
+   #84 = Utf8               Lscala/reflect/ClassTag$;
+   #85 = NameAndType        #27:#84       // MODULE$:Lscala/reflect/ClassTag$;
+   #86 = Fieldref           #83.#85       // scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+   #87 = Utf8               java/lang/Integer
+   #88 = Class              #87           // java/lang/Integer
+   #89 = Utf8               TYPE
+   #90 = Utf8               Ljava/lang/Class;
+   #91 = NameAndType        #89:#90       // TYPE:Ljava/lang/Class;
+   #92 = Fieldref           #88.#91       // java/lang/Integer.TYPE:Ljava/lang/Class;
+   #93 = Utf8               (Ljava/lang/Class;)Lscala/reflect/ClassTag;
+   #94 = NameAndType        #74:#93       // apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+   #95 = Methodref          #83.#94       // scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+   #96 = Utf8               scala/reflect/ClassTag
+   #97 = Class              #96           // scala/reflect/ClassTag
+   #98 = Utf8               unapply
+   #99 = Utf8               (Ljava/lang/Object;)Lscala/Option;
+  #100 = NameAndType        #98:#99       // unapply:(Ljava/lang/Object;)Lscala/Option;
+  #101 = InterfaceMethodref #97.#100      // scala/reflect/ClassTag.unapply:(Ljava/lang/Object;)Lscala/Option;
+  #102 = Utf8               scala/Option
+  #103 = Class              #102          // scala/Option
+  #104 = Utf8               isEmpty
+  #105 = Utf8               ()Z
+  #106 = NameAndType        #104:#105     // isEmpty:()Z
+  #107 = Methodref          #103.#106     // scala/Option.isEmpty:()Z
+  #108 = Utf8               get
+  #109 = NameAndType        #108:#49      // get:()Ljava/lang/Object;
+  #110 = Methodref          #103.#109     // scala/Option.get:()Ljava/lang/Object;
+  #111 = Methodref          #23.#100      // supertaggedtests/tagged/package$UserInt$.unapply:(Ljava/lang/Object;)Lscala/Option;
+  #112 = Utf8               scala/Predef$
+  #113 = Class              #112          // scala/Predef$
+  #114 = Utf8               Lscala/Predef$;
+  #115 = NameAndType        #27:#114      // MODULE$:Lscala/Predef$;
+  #116 = Fieldref           #113.#115     // scala/Predef$.MODULE$:Lscala/Predef$;
+  #117 = Utf8               boxToBoolean
+  #118 = Utf8               (Z)Ljava/lang/Boolean;
+  #119 = NameAndType        #117:#118     // boxToBoolean:(Z)Ljava/lang/Boolean;
+  #120 = Methodref          #60.#119      // scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+  #121 = Utf8               println
+  #122 = Utf8               (Ljava/lang/Object;)V
+  #123 = NameAndType        #121:#122     // println:(Ljava/lang/Object;)V
+  #124 = Methodref          #113.#123     // scala/Predef$.println:(Ljava/lang/Object;)V
+  #125 = Utf8               user
+  #126 = Utf8               result
+  #127 = Utf8               Z
+  #128 = Utf8               newtype_ops
+  #129 = Utf8               Lsupertaggedtests/newtypes/package$Step1$;
+  #130 = NameAndType        #27:#129      // MODULE$:Lsupertaggedtests/newtypes/package$Step1$;
+  #131 = Fieldref           #12.#130      // supertaggedtests/newtypes/package$Step1$.MODULE$:Lsupertaggedtests/newtypes/package$Step1$;
+  #132 = Methodref          #12.#76       // supertaggedtests/newtypes/package$Step1$.apply:(Ljava/lang/Object;Lsupertagged/Replace;)Ljava/lang/Object;
+  #133 = Utf8               Lsupertaggedtests/newtypes/package$Step1$Ops$;
+  #134 = NameAndType        #27:#133      // MODULE$:Lsupertaggedtests/newtypes/package$Step1$Ops$;
+  #135 = Fieldref           #20.#134      // supertaggedtests/newtypes/package$Step1$Ops$.MODULE$:Lsupertaggedtests/newtypes/package$Step1$Ops$;
+  #136 = Utf8               supertagged/package$
+  #137 = Class              #136          // supertagged/package$
+  #138 = Utf8               Lsupertagged/package$;
+  #139 = NameAndType        #27:#138      // MODULE$:Lsupertagged/package$;
+  #140 = Fieldref           #137.#139     // supertagged/package$.MODULE$:Lsupertagged/package$;
+  #141 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+  #142 = MethodType         #141          //  (Ljava/lang/Object;)Ljava/lang/Object;
+  #143 = Utf8               $anonfun$newtype_ops$1$adapted
+  #144 = NameAndType        #143:#141     // $anonfun$newtype_ops$1$adapted:(Ljava/lang/Object;)Ljava/lang/Object;
+  #145 = Methodref          #2.#144       // supertaggedtests/misc/ShowMeByteCode$.$anonfun$newtype_ops$1$adapted:(Ljava/lang/Object;)Ljava/lang/Object;
+  #146 = MethodHandle       #6:#145       // invokestatic supertaggedtests/misc/ShowMeByteCode$.$anonfun$newtype_ops$1$adapted:(Ljava/lang/Object;)Ljava/lang/Object;
+  #147 = Integer            3
+  #148 = Integer            1
+  #149 = Utf8               scala/Serializable
+  #150 = Class              #149          // scala/Serializable
+  #151 = Utf8               java/lang/invoke/LambdaMetafactory
+  #152 = Class              #151          // java/lang/invoke/LambdaMetafactory
+  #153 = Utf8               altMetafactory
+  #154 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #155 = NameAndType        #153:#154     // altMetafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #156 = Methodref          #152.#155     // java/lang/invoke/LambdaMetafactory.altMetafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #157 = MethodHandle       #6:#156       // invokestatic java/lang/invoke/LambdaMetafactory.altMetafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #158 = Utf8               ()Lscala/Function1;
+  #159 = NameAndType        #74:#158      // apply:()Lscala/Function1;
+  #160 = InvokeDynamic      #0:#159       // #0:apply:()Lscala/Function1;
+  #161 = Utf8               newtypeOps
+  #162 = Utf8               (Ljava/lang/Object;Lscala/Function1;)Ljava/lang/Object;
+  #163 = NameAndType        #161:#162     // newtypeOps:(Ljava/lang/Object;Lscala/Function1;)Ljava/lang/Object;
+  #164 = Methodref          #137.#163     // supertagged/package$.newtypeOps:(Ljava/lang/Object;Lscala/Function1;)Ljava/lang/Object;
+  #165 = Utf8               supertaggedtests$newtypes$Step1$Ops$$v
+  #166 = NameAndType        #165:#42      // supertaggedtests$newtypes$Step1$Ops$$v:()I
+  #167 = Methodref          #17.#166      // supertaggedtests/newtypes/package$Step1$Ops.supertaggedtests$newtypes$Step1$Ops$$v:()I
+  #168 = Utf8               next$extension
+  #169 = Utf8               (I)Ljava/lang/Object;
+  #170 = NameAndType        #168:#169     // next$extension:(I)Ljava/lang/Object;
+  #171 = Methodref          #20.#170      // supertaggedtests/newtypes/package$Step1$Ops$.next$extension:(I)Ljava/lang/Object;
+  #172 = Utf8               step
+  #173 = Utf8               next
+  #174 = Utf8               $anonfun$newtype_ops$1
+  #175 = Utf8               (I)I
+  #176 = Utf8               v
+  #177 = NameAndType        #18:#175      // Ops:(I)I
+  #178 = Methodref          #12.#177      // supertaggedtests/newtypes/package$Step1$.Ops:(I)I
+  #179 = Methodref          #4.#40        // java/lang/Object."<init>":()V
+  #180 = NameAndType        #27:#28       // MODULE$:Lsupertaggedtests/misc/ShowMeByteCode$;
+  #181 = Fieldref           #2.#180       // supertaggedtests/misc/ShowMeByteCode$.MODULE$:Lsupertaggedtests/misc/ShowMeByteCode$;
+  #182 = Utf8               scala/Array$
+  #183 = Class              #182          // scala/Array$
+  #184 = Utf8               Lscala/Array$;
+  #185 = NameAndType        #27:#184      // MODULE$:Lscala/Array$;
+  #186 = Fieldref           #183.#185     // scala/Array$.MODULE$:Lscala/Array$;
+  #187 = Utf8               scala/collection/immutable/Nil$
+  #188 = Class              #187          // scala/collection/immutable/Nil$
+  #189 = Utf8               Lscala/collection/immutable/Nil$;
+  #190 = NameAndType        #27:#189      // MODULE$:Lscala/collection/immutable/Nil$;
+  #191 = Fieldref           #188.#190     // scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+  #192 = Utf8               (Lscala/collection/Seq;Lscala/reflect/ClassTag;)Ljava/lang/Object;
+  #193 = NameAndType        #74:#192      // apply:(Lscala/collection/Seq;Lscala/reflect/ClassTag;)Ljava/lang/Object;
+  #194 = Methodref          #183.#193     // scala/Array$.apply:(Lscala/collection/Seq;Lscala/reflect/ClassTag;)Ljava/lang/Object;
+  #195 = Class              #32           // "[I"
+  #196 = Class              #36           // "[Ljava/lang/Object;"
+  #197 = NameAndType        #174:#175     // $anonfun$newtype_ops$1:(I)I
+  #198 = Methodref          #2.#197       // supertaggedtests/misc/ShowMeByteCode$.$anonfun$newtype_ops$1:(I)I
+  #199 = Utf8               (I)V
+  #200 = NameAndType        #39:#199      // "<init>":(I)V
+  #201 = Methodref          #17.#200      // supertaggedtests/newtypes/package$Step1$Ops."<init>":(I)V
+  #202 = Utf8               $deserializeLambda$
+  #203 = Utf8               (Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+  #204 = Utf8               scala/runtime/LambdaDeserialize
+  #205 = Class              #204          // scala/runtime/LambdaDeserialize
+  #206 = Utf8               bootstrap
+  #207 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/invoke/CallSite;
+  #208 = NameAndType        #206:#207     // bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/invoke/CallSite;
+  #209 = Methodref          #205.#208     // scala/runtime/LambdaDeserialize.bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/invoke/CallSite;
+  #210 = MethodHandle       #6:#209       // invokestatic scala/runtime/LambdaDeserialize.bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/invoke/CallSite;
+  #211 = Utf8               lambdaDeserialize
+  #212 = NameAndType        #211:#203     // lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+  #213 = InvokeDynamic      #1:#212       // #1:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+  #214 = Utf8               Signature
+  #215 = Utf8               Code
+  #216 = Utf8               LineNumberTable
+  #217 = Utf8               LocalVariableTable
+  #218 = Utf8               StackMapTable
+  #219 = Utf8               MethodParameters
+  #220 = Utf8               InnerClasses
+  #221 = Utf8               SourceFile
+  #222 = Utf8               BootstrapMethods
+  #223 = Utf8               ScalaInlineInfo
+  #224 = Utf8               Scala
+{
+  public static supertaggedtests.misc.ShowMeByteCode$ MODULE$;
+    descriptor: Lsupertaggedtests/misc/ShowMeByteCode$;
+    flags: ACC_PUBLIC, ACC_STATIC
+
+  public static {};
+    descriptor: ()V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: new           #2                  // class supertaggedtests/misc/ShowMeByteCode$
+         3: invokespecial #41                 // Method "<init>":()V
+         6: return
+
+  public int tagged_int();
+    descriptor: ()I
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #44                 // Field tagged_int:I
+         4: ireturn
+      LineNumberTable:
+        line 20: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lsupertaggedtests/misc/ShowMeByteCode$;
+    Signature: #42                          // ()I
+
+  public int[] tagged_array_int();
+    descriptor: ()[I
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #48                 // Field tagged_array_int:[I
+         4: areturn
+      LineNumberTable:
+        line 27: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lsupertaggedtests/misc/ShowMeByteCode$;
+    Signature: #46                          // ()[I
+
+  public java.lang.Object newtype_int();
+    descriptor: ()Ljava/lang/Object;
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #51                 // Field newtype_int:Ljava/lang/Object;
+         4: areturn
+      LineNumberTable:
+        line 34: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lsupertaggedtests/misc/ShowMeByteCode$;
+    Signature: #49                          // ()Ljava/lang/Object;
+
+  public java.lang.Object[] newtype_array_int();
+    descriptor: ()[Ljava/lang/Object;
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #54                 // Field newtype_array_int:[Ljava/lang/Object;
+         4: areturn
+      LineNumberTable:
+        line 41: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lsupertaggedtests/misc/ShowMeByteCode$;
+    Signature: #52                          // ()[Ljava/lang/Object;
+
+  public void tagged_unapply();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=3, locals=9, args_size=1
+         0: getstatic     #58                 // Field supertaggedtests/tagged/package$UserInt$.MODULE$:Lsupertaggedtests/tagged/package$UserInt$;
+         3: iconst_5
+         4: invokestatic  #64                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+         7: getstatic     #69                 // Field supertagged/Replace$.MODULE$:Lsupertagged/Replace$;
+        10: invokevirtual #73                 // Method supertagged/Replace$.base:()Lsupertagged/Replace;
+        13: invokevirtual #77                 // Method supertaggedtests/tagged/package$UserInt$.apply:(Ljava/lang/Object;Lsupertagged/Replace;)Ljava/lang/Object;
+        16: invokestatic  #81                 // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+        19: istore_2
+        20: iload_2
+        21: istore        4
+        23: getstatic     #86                 // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+        26: getstatic     #92                 // Field java/lang/Integer.TYPE:Ljava/lang/Class;
+        29: invokevirtual #95                 // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+        32: iload         4
+        34: invokestatic  #64                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+        37: invokeinterface #101,  2          // InterfaceMethod scala/reflect/ClassTag.unapply:(Ljava/lang/Object;)Lscala/Option;
+        42: astore        5
+        44: aload         5
+        46: invokevirtual #107                // Method scala/Option.isEmpty:()Z
+        49: ifne          110
+        52: aload         5
+        54: invokevirtual #110                // Method scala/Option.get:()Ljava/lang/Object;
+        57: invokestatic  #81                 // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+        60: istore        6
+        62: getstatic     #58                 // Field supertaggedtests/tagged/package$UserInt$.MODULE$:Lsupertaggedtests/tagged/package$UserInt$;
+        65: iload         6
+        67: invokestatic  #64                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+        70: invokevirtual #111                // Method supertaggedtests/tagged/package$UserInt$.unapply:(Ljava/lang/Object;)Lscala/Option;
+        73: astore        7
+        75: aload         7
+        77: invokevirtual #107                // Method scala/Option.isEmpty:()Z
+        80: ifne          107
+        83: aload         7
+        85: invokevirtual #110                // Method scala/Option.get:()Ljava/lang/Object;
+        88: invokestatic  #81                 // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+        91: istore        8
+        93: iconst_5
+        94: iload         8
+        96: if_icmpne     104
+        99: iconst_1
+       100: istore_1
+       101: goto          118
+       104: goto          113
+       107: goto          113
+       110: goto          113
+       113: iconst_0
+       114: istore_1
+       115: goto          118
+       118: iload_1
+       119: istore_3
+       120: getstatic     #116                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       123: iload_3
+       124: invokestatic  #120                // Method scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+       127: invokevirtual #124                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+       130: return
+      StackMapTable: number_of_entries = 5
+        frame_type = 255 /* full_frame */
+          offset_delta = 104
+          locals = [ class supertaggedtests/misc/ShowMeByteCode$, top, int, top, int, class scala/Option, int, class scala/Option, int ]
+          stack = []
+        frame_type = 250 /* chop */
+          offset_delta = 2
+        frame_type = 249 /* chop */
+          offset_delta = 2
+        frame_type = 2 /* same */
+        frame_type = 255 /* full_frame */
+          offset_delta = 4
+          locals = [ class supertaggedtests/misc/ShowMeByteCode$, int, int, top, int, class scala/Option ]
+          stack = []
+      LineNumberTable:
+        line 148: 0
+        line 150: 20
+        line 151: 23
+        line 150: 52
+        line 151: 62
+        line 150: 83
+        line 151: 93
+        line 152: 113
+        line 150: 118
+        line 155: 120
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           19     111     2  user   I
+          119      11     3 result   Z
+            0     131     0  this   Lsupertaggedtests/misc/ShowMeByteCode$;
+
+  public void newtype_ops();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=4, locals=3, args_size=1
+         0: getstatic     #131                // Field supertaggedtests/newtypes/package$Step1$.MODULE$:Lsupertaggedtests/newtypes/package$Step1$;
+         3: iconst_5
+         4: invokestatic  #64                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+         7: getstatic     #69                 // Field supertagged/Replace$.MODULE$:Lsupertagged/Replace$;
+        10: invokevirtual #73                 // Method supertagged/Replace$.base:()Lsupertagged/Replace;
+        13: invokevirtual #132                // Method supertaggedtests/newtypes/package$Step1$.apply:(Ljava/lang/Object;Lsupertagged/Replace;)Ljava/lang/Object;
+        16: astore_1
+        17: getstatic     #135                // Field supertaggedtests/newtypes/package$Step1$Ops$.MODULE$:Lsupertaggedtests/newtypes/package$Step1$Ops$;
+        20: getstatic     #140                // Field supertagged/package$.MODULE$:Lsupertagged/package$;
+        23: aload_1
+        24: invokedynamic #160,  0            // InvokeDynamic #0:apply:()Lscala/Function1;
+        29: invokevirtual #164                // Method supertagged/package$.newtypeOps:(Ljava/lang/Object;Lscala/Function1;)Ljava/lang/Object;
+        32: checkcast     #17                 // class supertaggedtests/newtypes/package$Step1$Ops
+        35: invokevirtual #167                // Method supertaggedtests/newtypes/package$Step1$Ops.supertaggedtests$newtypes$Step1$Ops$$v:()I
+        38: invokevirtual #171                // Method supertaggedtests/newtypes/package$Step1$Ops$.next$extension:(I)Ljava/lang/Object;
+        41: astore_2
+        42: getstatic     #116                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+        45: aload_2
+        46: invokevirtual #124                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+        49: return
+      LineNumberTable:
+        line 165: 0
+        line 167: 17
+        line 169: 42
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           16      33     1  step   Ljava/lang/Object;
+           41       8     2  next   Ljava/lang/Object;
+            0      50     0  this   Lsupertaggedtests/misc/ShowMeByteCode$;
+
+  public static final int $anonfun$newtype_ops$1(int);
+    descriptor: (I)I
+    flags: ACC_PUBLIC, ACC_STATIC, ACC_FINAL, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #131                // Field supertaggedtests/newtypes/package$Step1$.MODULE$:Lsupertaggedtests/newtypes/package$Step1$;
+         3: iload_0
+         4: invokevirtual #178                // Method supertaggedtests/newtypes/package$Step1$.Ops:(I)I
+         7: ireturn
+      LineNumberTable:
+        line 167: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0     v   I
+    MethodParameters:
+      Name                           Flags
+      v                              final
+
+  public static final java.lang.Object $anonfun$newtype_ops$1$adapted(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Ljava/lang/Object;
+    flags: ACC_PUBLIC, ACC_STATIC, ACC_FINAL, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=1, args_size=1
+         0: new           #17                 // class supertaggedtests/newtypes/package$Step1$Ops
+         3: dup
+         4: aload_0
+         5: invokestatic  #81                 // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+         8: invokestatic  #198                // Method $anonfun$newtype_ops$1:(I)I
+        11: invokespecial #201                // Method supertaggedtests/newtypes/package$Step1$Ops."<init>":(I)V
+        14: areturn
+      LineNumberTable:
+        line 167: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      15     0     v   Ljava/lang/Object;
+    MethodParameters:
+      Name                           Flags
+      v                              final
+}
+InnerClasses:
+     public static final #10= #7 of #9; //Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles
+     public static #15= #12 of #14; //Step1$=class supertaggedtests/newtypes/package$Step1$ of class supertaggedtests/newtypes/package
+     public static final #18= #17 of #12; //Ops=class supertaggedtests/newtypes/package$Step1$Ops of class supertaggedtests/newtypes/package$Step1$
+     public static #21= #20 of #12; //Ops$=class supertaggedtests/newtypes/package$Step1$Ops$ of class supertaggedtests/newtypes/package$Step1$
+     public static #26= #23 of #25; //UserInt$=class supertaggedtests/tagged/package$UserInt$ of class supertaggedtests/tagged/package
+SourceFile: "ShowMeByteCode.scala"
+BootstrapMethods:
+  0: #157 invokestatic java/lang/invoke/LambdaMetafactory.altMetafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #142 (Ljava/lang/Object;)Ljava/lang/Object;
+      #146 invokestatic supertaggedtests/misc/ShowMeByteCode$.$anonfun$newtype_ops$1$adapted:(Ljava/lang/Object;)Ljava/lang/Object;
+      #142 (Ljava/lang/Object;)Ljava/lang/Object;
+      #147 3
+      #148 1
+      #150 scala/Serializable
+  1: #210 invokestatic scala/runtime/LambdaDeserialize.bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #146 invokestatic supertaggedtests/misc/ShowMeByteCode$.$anonfun$newtype_ops$1$adapted:(Ljava/lang/Object;)Ljava/lang/Object;
+Error: unknown attribute
+  ScalaInlineInfo: length = 0x31
+   01 01 00 09 00 8F 00 8D 01 00 AE 00 AF 01 00 27
+   00 26 01 00 23 00 34 01 00 21 00 31 01 00 80 00
+   26 01 00 1F 00 2E 01 00 1D 00 2A 01 00 37 00 26
+   01
+Error: unknown attribute
+  Scala: length = 0x0

@@ -1,13 +1,18 @@
-package supertaggedtests
+package supertaggedtests.tagged
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 import shapeless.test.illTyped
 
-class TestClassicWay extends FlatSpec with Matchers {
+class Classic extends AnyFlatSpec with Matchers {
 
 
   import supertagged.@@
-  import TestClassicWay._
+  import supertagged.classic._
+//  import TestClassicWay.Width
+
+  sealed trait Width
+  sealed trait Height
 
   "Classic way" should "work" in {
 
@@ -30,10 +35,4 @@ class TestClassicWay extends FlatSpec with Matchers {
   def testWidthFloat(v:Float @@ Width):Float @@ Width = @@[Width](v * 10)
 
   def testHeightInt(v:Int @@ Height):Int @@ Height = @@[Height](v * 10)
-}
-
-object TestClassicWay {
-
-  sealed trait Width
-  sealed trait Height
 }

@@ -1,12 +1,13 @@
 import sbt._
 
-
-import sbtcrossproject.{crossProject, CrossType}
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 releaseCrossBuild := true
 publishMavenStyle := true
 pomIncludeRepository := (_ => false)
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
+
+parallelExecution in ThisBuild := false
 
 lazy val defaultSettings =
   Project.defaultSettings ++
@@ -36,6 +37,7 @@ lazy val root = project.in(file("."))
 
 lazy val supertaggedJVM = supertagged.jvm
 lazy val supertaggedJS = supertagged.js
+//lazy val supertaggedNative = supertagged.native.settings(Project.moduleNativeSettings  : _*)
 
 /*
  * Uncomment, if You need scala.native version and manually publish it locally

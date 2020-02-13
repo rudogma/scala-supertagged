@@ -14,19 +14,24 @@
   **/
 
 
+import supertagged.utils.{Add, ETag, Remove, Replace, ReplaceOps}
+
 import scala.language.implicitConversions
-import scala.language.higherKinds
-
-
-/**
-  * Original idea (using base trait `TaggedType` & `type Companion = Companion.Type` from: Alexander Semenov (https://github.com/Treev-io/tagged-types)
-  *
-  * Enhanced with unified syntax, recursive(on type level) tagging and overcoming some compiler bugs
-  */
 
 package object supertagged {
 
-  private def cast[T, U](v: U): T = v.asInstanceOf[T]
+  @inline private[supertagged] final def unsafeCast[A, B](v: A): B = v.asInstanceOf[B]
+  @inline private[supertagged] final def unsafeCastNull[A]: A = null.asInstanceOf[A]
+
+  sealed trait ImplicitScope[T, +U] extends Any {
+    type Raw = T
+    type Gag <: U
+  }
+
+
+  /**
+    * Tagging
+    */
 
   /**
     * Making universal trait for overcoming `feature bug`(knowing as `[I cannot be cast to [Ljava.lang.Object;` - see at TestScalacBug).
@@ -34,7 +39,7 @@ package object supertagged {
     **/
   //  type Tag[T, +U] = {type Raw = T; type Gag <: U}
   sealed trait Tag[T, +U] extends Any {
-    type Raw = T;
+    type Raw = T
     type Gag <: U
   }
 
@@ -42,254 +47,210 @@ package object supertagged {
   type Tagged[T, +U] = T with Tag[T, U]
 
 
-  /**
-    * `Classic` way. Original idea: Miles Sabin
-    **/
 
-
-  trait ClassicTagger[U] {
-    def apply[T](v: T): T @@ U = cast(v)
-  }
-
-  private val classicStub = new ClassicTagger[Nothing] {}
-
-  def tag[U]:ClassicTagger[U] = cast(classicStub)
-
-  def @@[U]:ClassicTagger[U] = cast(classicStub)
-
-  def untag[T, U](value: T @@ U): T = value
-
-  /** -- end classic -- **/
-
-
-
-  /** Lift ( Adopted and simplified from: https://github.com/softwaremill/scala-common/blob/master/tagging/src/main/scala/com/softwaremill/tagging/TypeclassTaggingCompat.scala) **/
-
-  trait LifterF[F[_]] {
-
-    implicit def lift[T, U](implicit f: F[T]): F[T @@ U] = cast(f)
-  }
-
-  implicit def liftLifterF[F[_], T, U](implicit f: F[T], lifter: LifterF[F]): F[T @@ U] = cast(f)
-
-  object lifterF {
-    def apply[F[_]] = new LifterF[F] {}
-
-    implicit def liftAnyF[T, U, F[_]](implicit f: F[T]): F[T @@ U] = cast(f)
-  }
-
-
-  /** Preparing for Magic **/
-
-
-  /**
-    * Example:
-    * ```
-    * object Width extends TaggedType[Int]
-    * type Width = Width.Type    // this for pretty coding: ```def method(v:Width)```
-    * ```
-    */
-  trait TaggedType[T] {
-
-    //    sealed trait Tag
-    /**
-      * Original idea from Alexander Semenov [https://github.com/Tvaroh] using inner:
-      *
-      * ```sealed trait Tag```
-      *
-      * but, we can use existent already materialized anchor ```object MyTag extends TaggedType[T]```, so there is no need
-      * for any additional anchor trait. All right for now :)
-      *
-      */
-    type Tag <: this.type
-
+  trait TaggedType0[T] {
+    type Tag <: this.type //with supertagged.ImplicitScope[T, this.type]
 
     type Raw = T
-    type Type = T @@ Tag
-
 
     /**
-      * Adds one more tag to existing tags (if no tags then adds one)
+      * Here if we use Raw in `type TaggedType = @@[Raw,Tag]`
+      * we will get scalac specific compile error, but with T - all ok
       */
-    def apply[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.Out = cast(c)
+    type Type = @@[T,Tag]
 
-    /**
-      * Alias for `apply` for pretty coding `MyTag @@ value`
-      */
-    def @@[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.Out = cast(c)
-
-    /**
-      * Replaces all existing tags with 1 new (if no tags then adds one)
-      * (Don't know who really needs this, but very simple implementation, so it is here)
-      */
-    def !@@[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.OutReplaced = cast(c)
-
-
-    /**
-      * Removes concrete tag (this.Tag)
-      */
-    def untag[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.Untagged = cast(c)
-
-
-    def raw(c:Type):T = c
-//    def tagRaw(raw:T):T @@ Tag = cast(raw)
-
-
-    implicit def ordering[U](implicit origin:Ordering[T]):Ordering[T @@ U] = cast(origin)
+    @inline protected final def unsafeCast[A, B](v: A): B = v.asInstanceOf[B]
   }
+
+  trait TaggedType[T] extends TaggedType0[T] with LiftedOrdering {
+
+    /**
+      * Tagging (not already tagged values)
+      */
+    final def apply[C](c: C)(implicit R: Replace[C, T, Type]): R.Out = unsafeCast(c)
+
+    /**
+      * alias for `apply`
+      */
+    final def @@[C](c: C)(implicit R: Replace[C, T, Type]): R.Out = unsafeCast(c)
+
+    /**
+      * Force tagging (removes all over tags)
+      */
+    final def !@@[C,Tag](c:C)(implicit Tag:ETag.Aux[Tag,C,Raw], R:Replace[C, Raw @@ Tag, Type]):R.Out = unsafeCast(c)
+
+    /**
+      * Multi tagging
+      */
+    final def @@@[C](c: C)(implicit A:Add[C, T, Tag]): A.Out = unsafeCast(c)
+
+    final def raw(c:Type):T = c
+
+    /**
+     * Thanks @eld0727 from https://t.me/scala_ru for feature request
+     */
+    final def unapply(v: Type): Option[T] = Some(v)
+
+
+    final def untag[C](c:C)(implicit R:Remove[C,T,Tag]):R.Out = unsafeCast(c)
+
+    final def lift[F[_]](implicit F:F[Raw]):F[Type] = unsafeCast(F)
+  }
+
+
+
+  trait TaggedTypeT0 {
+
+    type Tag[_] <: this.type
+    type Raw[T]
+
+    type Type[T] = Tagged[Raw[T],Tag[T]] // aliased for overcoming cyclic reference error
+
+    /**
+      * Alternatives
+      */
+    //    type Type[T] = Raw[T] with supertagged.Tag[Raw[T], Tag[T]] // expanded for overcoming cyclic reference error
+    //    type Type[T] = @@[Raw[T],Tag[T]] // cyclic reference for Get[Step1]
+  }
+
+  trait TaggedTypeT extends TaggedTypeT0 {
+
+    final def apply[T]:ReplaceOps[Raw[T],Type[T]] = ReplaceOps[Raw[T],Type[T]]
+
+    final def raw[T](c:Type[T]):T = c.asInstanceOf[T]
+    final def extractor[T]:Extractor[Raw[T], Type[T]] = Extractor.apply
+
+  }
+
+
+  sealed class TaggedOps[Raw,Tag,Type] {
+    final def apply[C](c: C)(implicit R: Replace[C, Raw, Type]): R.Out = unsafeCast(c)
+    final def @@[C](c: C)(implicit R: Replace[C, Raw, Type]): R.Out = unsafeCast(c)
+
+    final def !@@[C,Tag](c:C)(implicit Tag:ETag.Aux[Tag,C,Raw], R:Replace[C, Raw @@ Tag, Type]):R.Out = unsafeCast(c)
+
+    final def @@@[C](c: C)(implicit A:Add[C, Raw, Tag]): A.Out = unsafeCast(c)
+
+    def raw(c:Type):Raw = c.asInstanceOf[Raw]
+    final def untag[C](c:C)(implicit R:Remove[C,Raw,Tag]):R.Out = unsafeCast(c)
+
+    final def lift[F[_]](implicit F:F[Raw]):F[Type] = unsafeCast(F)
+  }
+
+  object TaggedOps {
+    protected val stub = new TaggedOps[Any,Any,Any]()
+
+    def apply[Raw,Tag,Type]:TaggedOps[Raw,Tag,Type] = unsafeCast(stub)
+    def apply[Raw, TT[Raw] <: TaggedType0[Raw]](typ:TT[Raw]):TaggedOps[Raw,typ.Tag,typ.Type] = unsafeCast(stub)
+  }
+
 
   /**
     * New name: Overtagged
     */
   class OverTagged[R, T <: TaggedType[R]](val nested:T with TaggedType[R]) extends TaggedType[T#Type]{
-//    override type Tag = T#Tag with this.type
-  }
 
-  /**
-    * Need one more trait in chain. Do not cut and optimize it!
-    */
-
-  /**
-    * Temporary, subject to change in future
-    * For cases where ONLY tagged type parameterized by type. See examples in TestBoundedTaggedTypes.scala
-    */
-  trait TaggedTypeF {
-    trait TypeF[T] extends TaggedType[T]
-
-    private lazy val stub = new TypeF[Nothing] {}
-
-    type Type[T] = TypeF[T]#Type
-
-    def apply[T]:TypeF[T] = cast(stub)
-  }
-
-  /**
-    * Temporary, subject to change in future
-    * For cases where both tagged type and base with parameterized by type. See examples in TestBoundedTaggedTypes.scala
-    */
-  trait TaggedTypeFF[F[_]] {
-    trait TypeF[T] extends TaggedType[T]
-
-    private lazy val stub = new TypeF[Nothing] {}
-
-    type Type[T] = TypeF[F[T]]#Type
-
-    def apply[T]:TypeF[F[T]] = cast(stub)
   }
 
 
 
 
-
-
-
-
-
   /**
-    * NEW TYPES (based on Miles Sabin shapeless.newtype )
+    * NEW TYPES
     */
 
   //Needs anonymous {}, because `trait` will be materialized and will not compile
-  type Newtype[Repr, Ops] = { type T = Tag[Repr, Ops] }
+  type Newtype[Repr, Ops] = {
+    type Raw = Repr
+    type T = Tag[Repr, Ops]
+  }
 
   implicit def newtypeOps[Repr, Ops](t : Newtype[Repr, Ops])(implicit mkOps : Repr => Ops) : Ops = t.asInstanceOf[Repr]
 
-  trait NewType[T, Tag0] {
 
-    type Tag = Tag0
+  trait NewType0 {
+
+    protected type Newtype[T,Ops] = supertagged.Newtype[T,Ops] with supertagged.ImplicitScope[T, this.type]
+
+    /**
+      * Basic override:
+      * `def apply[..your params]...`
+      */
+    @inline protected final def tag[A,B <: Newtype[_,_]](a:A):B = Replace[A,B](a)
+    @inline protected final def cotag[T,Ops](b:Newtype[T,Ops]):b.Raw = unsafeCast(b)
+
+    @inline def lift[F[_], Raw](implicit F:F[Raw]):F[Newtype[Raw,_]] = unsafeCast(F)
+  }
+
+  trait NewType[T] {
+
+    type Ops
     type Raw = T
-    type Type = T @@ Tag
-    type NewType = Newtype[T, Tag]
+    type Type = Newtype[T,Ops] with supertagged.ImplicitScope[T, this.type]
 
 
+    final def apply[C](c: C)(implicit R: Replace[C, T, Type]): R.Out = unsafeCast(c)
+    final def @@[C](c: C)(implicit R: Replace[C, T, Type]): R.Out = unsafeCast(c)
 
-    def apply[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.NewType = c.asInstanceOf[T with tagger.NewType]
-    def @@[TagIn, Sub, C](c: C)(implicit tagger: Tagger[TagIn, Type, Tag, Sub, C]): tagger.NewType = c.asInstanceOf[T with tagger.NewType]
+    @inline final def raw(c:Type):T = unsafeCast(c)
 
+    @inline final def unapply(v: Type): Option[T] = Some(v.asInstanceOf[T])
 
-    def raw(c:NewType):T = c.asInstanceOf[T]
+    @inline def lift[F[_]](implicit F:F[T]):F[Type] = unsafeCast(F)
   }
 
 
-  trait NewTypeF[R, Tag] extends NewType[R, Tag]
+  trait NewTypeT extends NewType0 {
 
-  private val newTypeFStub = new NewTypeF[Nothing, Nothing] {}
+    type Ops[_]
+    type Raw[T]
+    type Type[T] = Newtype[T,Ops[T]]
 
-  def NewTypeF[Raw,Tag]:NewTypeF[Raw,Tag]= cast(newTypeFStub)
 
+    final def apply[T]:ReplaceOps[T,Type[T]] = ReplaceOps[T,Type[T]]
 
+    final def raw[T](c:Type[T]):T = unsafeCast(c)
+    final def extractor[T]:Extractor[Raw[T], Type[T]] = Extractor.apply
+  }
 
   /** --- END NEW TYPES --- **/
 
 
+  /**
+    * Extractor
+    */
 
+  sealed class Extractor[Raw,T]{
+    /**
+      * Potentially unsafe if you will use it elsewhere except `match` block
+      */
+    final def unapply(b:T):Option[Raw] = Some(unsafeCast(b))
+  }
+  object Extractor {
+    private val stub = new Extractor[Any,Any]()
 
-
-
-
+    final def apply[Raw,T]:Extractor[Raw,T] = unsafeCast(stub)
+  }
 
 
 
 
   /**
-    * For pretty coding `value @@ MyTag`
+    * Lifted Orderings. Mix them to tagged & newtypes.
+    * Ex: `object Width extends TaggedType[Int] with LiftedOrdering`
     */
-  implicit class PostfixSugar[C](val __c: C) extends AnyVal {
 
+  trait LiftedOrdering {
+    type Raw
+    type Type
 
-    def @@[TagIn, Raw, Sub](typ: TaggedType[Raw])(implicit tagger: Tagger[TagIn, typ.Type, typ.Tag, Sub, C]): tagger.Out = cast(__c)
-
-    def !@@[TagIn, Raw, Sub](typ: TaggedType[Raw])
-                            (implicit tagger: Tagger[TagIn, typ.Type, typ.Tag, Sub, C]): tagger.OutReplaced = cast(__c)
-
-    def untag[TagIn, Raw, Sub](typ: TaggedType[Raw])
-                              (implicit tagger: Tagger[TagIn, typ.Type, typ.Tag, Sub, C]): tagger.Untagged = cast(__c)
+    implicit def ordering(implicit origin:Ordering[Raw]):Ordering[Type] = unsafeCast(origin)
   }
 
+  trait LiftedOrderingT {
+    type Raw[T]
+    type Type[T]
 
-  /** Magic starts here **/
-
-
-  trait Tagger[TagIn, Tag, U, SubType, C] {
-    type Out
-    type OutReplaced
-    type Untagged
-    type NewType
+    implicit def ordering[T](implicit origin:Ordering[Raw[T]]):Ordering[Type[T]] = unsafeCast(origin)
   }
-
-  object Tagger {
-
-    private val dummyTaggerStub = new Tagger[Nothing, Nothing, Nothing, Nothing, Nothing] {}
-
-    def dummyTagger[T]: T = cast(dummyTaggerStub)
-
-
-    type Aux[Out0, OutR0, Untagged0, NewType0, TagIn, Tag, U, SubType, C] = Tagger[TagIn, Tag, U, SubType, C] {
-      type Out = Out0
-      type OutReplaced = OutR0
-      type Untagged = Untagged0
-      type NewType = NewType0
-    }
-
-
-    implicit def recurС2[TagNew, TaggedNew <: Tagged[_, TagNew], TagIn, SubType, InnerC[_], OuterC[_]](implicit nested: Tagger[TagIn, TaggedNew, TagNew, SubType, InnerC[SubType]]): Aux[OuterC[nested.Out], OuterC[nested.OutReplaced], OuterC[nested.Untagged], OuterC[nested.NewType], TagIn, TaggedNew, TagNew, InnerC[SubType], OuterC[InnerC[SubType]]] = dummyTagger
-
-
-    implicit def recurС[TagNew, TaggedNew <: Tagged[Raw, TagNew], TagIn, Raw, InnerC[_], OuterC[_]](implicit nested: Tagger[TagIn, TaggedNew, TagNew, Raw, InnerC[Raw @@ TagIn]]): Aux[OuterC[InnerC[Raw @@ (TagIn with TagNew)]], OuterC[InnerC[Raw @@ TagNew]], OuterC[InnerC[Raw]], OuterC[InnerC[Newtype[Raw,TagNew]]], TagIn, TaggedNew, TagNew, InnerC[Raw @@ TagIn], OuterC[InnerC[Raw @@ TagIn]]] = dummyTagger
-
-
-    implicit def baseС[TagIn, TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw, C[_]]: Aux[C[Raw @@ (TagIn with TagNew)], C[Raw @@ TagNew], C[Raw], C[Newtype[Raw,TagNew]], TagIn, TaggedNew, TagNew, Raw, C[Raw @@ TagIn]] = dummyTagger
-
-
-    implicit def baseСRaw[TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw, C[_]]: Aux[C[Raw @@ TagNew], C[Raw @@ TagNew], C[Raw], C[Newtype[Raw,TagNew]], TagNew, TaggedNew, TagNew, Raw, C[Raw]] = dummyTagger
-
-
-    implicit def baseTagged[TagIn, TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw]: Aux[Raw @@ (TagIn with TagNew), Raw @@ TagNew, Raw, Newtype[Raw,TagNew], TagIn, TaggedNew, TagNew, Raw, Raw @@ TagIn] = dummyTagger
-
-
-    implicit def baseRaw[TagNew, TaggedNew <: Tagged[Raw, TagNew], Raw]: Aux[Raw @@ TagNew, Raw @@ TagNew, Raw, Newtype[Raw,TagNew], TagNew, TaggedNew, TagNew, Raw, Raw] = dummyTagger
-
-  }
-
-
 }

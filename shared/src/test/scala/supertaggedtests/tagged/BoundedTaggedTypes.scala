@@ -1,19 +1,18 @@
-package supertaggedtests
+package supertaggedtests.tagged
 
-import org.scalatest.{FlatSpec, Matchers}
-import supertagged._
-import TestBoundedTaggedTypes._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 import shapeless.test.illTyped
 
-class TestBoundedTaggedTypes extends FlatSpec with Matchers {
+class BoundedTaggedTypes extends AnyFlatSpec with Matchers {
 
   "Bounded Tag" should "work" in {
 
     val wrappedList = List(Array(1,2,3))
 
 
-    illTyped("""Widths[String] @@ wrappedList""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
-    illTyped("""Widths[Counter] @@ wrappedList""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
+    illTyped("""Widths[String] @@ wrappedList""", "could not find implicit value for parameter R.+")
+    illTyped("""Widths[Counter] @@ wrappedList""", "could not find implicit value for parameter R.+")
 
     val widths = (Widths[Int] @@ wrappedList).head
     val widthsCounter = Widths[Counter] @@ (Counter @@ wrappedList)
@@ -64,22 +63,4 @@ class TestBoundedTaggedTypes extends FlatSpec with Matchers {
 
   def getOnly[T](value:Get[T]):Unit = { /* compile test */ }
   def getIntOnly(value:Get[Int]):Unit = { /* compile test */ }
-}
-
-object TestBoundedTaggedTypes {
-
-  object Widths extends TaggedTypeFF[Array]
-  type Widths[T] = Widths.Type[T]
-
-  object Heights extends TaggedTypeFF[Array]
-  type Heights[T] = Heights.Type[T]
-
-
-  object Get extends TaggedTypeF
-  type Get[T] = Get.Type[T]
-
-  object Post extends TaggedTypeF
-  type Post[T] = Post.Type[T]
-
-
 }

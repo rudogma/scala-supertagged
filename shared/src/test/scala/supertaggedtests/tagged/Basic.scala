@@ -1,22 +1,23 @@
-package supertaggedtests
+package supertaggedtests.tagged
 
-
-import org.scalatest._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 import shapeless.test.illTyped
+import supertaggedtests._
 
-
-class TestBasic extends FlatSpec with Matchers {
-
-
+class Basic extends AnyFlatSpec with Matchers {
 
   "`TopLevel` type tagging" should "work" in {
 
     illTyped("""testUser1(userString)""", "type mismatch;.+")
-    illTyped("""val user3 = UserInt(userString)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
+    illTyped("""val user3 = UserInt(userString)""", "could not find implicit value for parameter R.+")
 
 
     val user1_0 = User1(userString)
     val user1_1 = User1 @@ userString
+
+    user1_0.isInstanceOf[User1] shouldBe true
+    user1_0.isInstanceOf[supertagged.Tag[_,_]] shouldBe false
 
     testUser1(user1_0)
     testUser1(user1_1)
@@ -43,9 +44,10 @@ class TestBasic extends FlatSpec with Matchers {
     testArrayOfInt(ArrayOfInt @@ Array(1,2,3))
 
 
-    //Doesn't compile. Scalac BUG (polymorphic expression...), not critical see notes in README
-    //    testArrayOfIntRaw(ArrayOfInt(Array(1,2,3)))
-    //    testArrayOfIntRaw(ArrayOfInt @@ Array(1,2,3))
+    // Doesn't compile. Scalac BUG (polymorphic expression...), not critical see notes in README
+    // Up: No more scalac bug
+    testArrayOfIntRaw(ArrayOfInt(Array(1,2,3)))
+    testArrayOfIntRaw(ArrayOfInt @@ Array(1,2,3))
 
   }
 
@@ -60,11 +62,11 @@ class TestBasic extends FlatSpec with Matchers {
 
     val userList_10_lvl = User1(List(List(List(List(List(userStrings_5_lvl))))))
 
-    illTyped("""UserInt(userStrings_1_lvl)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
-    illTyped("""UserInt(userStrings_2_lvl)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
-    illTyped("""UserInt(userStrings_3_lvl)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
-    illTyped("""UserInt(userStrings_4_lvl)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
-    illTyped("""UserInt(userStrings_5_lvl)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
+    illTyped("""UserInt(userStrings_1_lvl)""", "could not find implicit value for parameter R.+")
+    illTyped("""UserInt(userStrings_2_lvl)""", "could not find implicit value for parameter R.+")
+    illTyped("""UserInt(userStrings_3_lvl)""", "could not find implicit value for parameter R.+")
+    illTyped("""UserInt(userStrings_4_lvl)""", "could not find implicit value for parameter R.+")
+    illTyped("""UserInt(userStrings_5_lvl)""", "could not find implicit value for parameter R.+")
 
 
 
@@ -109,7 +111,7 @@ class TestBasic extends FlatSpec with Matchers {
 
 
     /** crazy-middle-nested **/
-    illTyped("CrazyNestedCounters @@ List(List(List(Array(Array(1,2,3)))))","could not find implicit value for parameter tagger: supertagged.Tagger.+")
+    illTyped("CrazyNestedCounters @@ List(List(List(Array(Array(1,2,3)))))","could not find implicit value for parameter R.+")
 
     val crazyArray = Array(Array(Array(Array(Array(1,2,3)))))
     val crazy0 = Counter @@ crazyArray
@@ -119,13 +121,22 @@ class TestBasic extends FlatSpec with Matchers {
     testCrazyCounters(crazy2.head.head.head) shouldBe 1
     testCounter(crazy2.head.head.head.head.head)
 
+
+    /**
+      *
+      * Just compile test for cyclic reference ( the reason for TaggedTypeT0 { type Type[T] = Tagged[Raw[T],Tag[T]] } )
+      * @param get
+      */
+    def checkCyclic(get:Get[Step1]):Unit = ???
+
+
     /**
       * Since Tag[T,+U] is universal trait, code below is not an issue any more
       */
     //    try{
 //        crazy2.head.head.head.head.head
 //
-//      throw new RuntimeException("It should fail!")
+//      ???
 //    }catch{
 //      case e:ClassCastException if e.getMessage == "[I cannot be cast to [Ljava.lang.Object;" =>
 //        println("JVM feature working!")
@@ -141,8 +152,8 @@ class TestBasic extends FlatSpec with Matchers {
     val userList_1_lvl = User1(userStrings_1_lvl)
     val userList_5_lvl = User1(userStrings_5_lvl)
 
-    illTyped("""UserInt(userStrings_1_lvl)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
-    illTyped("""UserInt(userStrings_5_lvl)""", "could not find implicit value for parameter tagger: supertagged.Tagger.+")
+    illTyped("""UserInt(userStrings_1_lvl)""", "could not find implicit value for parameter R.+")
+    illTyped("""UserInt(userStrings_5_lvl)""", "could not find implicit value for parameter R.+")
 
 
     val head1 = userList_1_lvl.head
@@ -171,21 +182,40 @@ class TestBasic extends FlatSpec with Matchers {
 
   "Replace SINGLE tag for `Nested`" should "work" in {
 
-    val userList_5_lvl = User2 @@ userStrings_5_lvl
+    val userList_5_lvl = User2 @@@ (User3 @@ userStrings_5_lvl)
     val user1replaced2 = User1 !@@ userList_5_lvl
 
 
     val head = user1replaced2.head.head.head.head.head
     testUser1(head)
     illTyped("""testUser2(head)""", "type mismatch;.+")
-
-
-    //Even if there is no tags
-    val user1replaced0 = User1 !@@ userStrings_5_lvl
-
-    val head2 = user1replaced0.head.head.head.head.head
-    testUser1(head2)
   }
 
+  "Untag" should "work" in {
+
+    def testArrStep2(v:List[Step2]):Unit = ()
+    def testArrStep1(v:List[Step1]):Unit = ()
+
+    val arr = List(1,2,3)
+    val steps = Step1 @@ arr
+
+    val untagged = Step1 untag steps
+    val tagged = ListOfInt @@ untagged
+
+    tagged shouldEqual Array(1,2,3)
+
+
+    val multi = Step2 @@@ (Step1 @@ arr)
+
+    testArrStep2(multi)
+
+    val m_untagged_of_2 = Step1 untag multi
+    val m_untagged_of_1 = Step2 untag multi
+
+//    testArrStep1(m_untagged_of_1)
+//    testArrStep2(m_untagged_of_2)
+//    illTyped("testArrStep1(Step1 untag multi)","ko")
+//    illTyped("testArrStep2(Step2 untag multi)","ko")
+  }
 
 }

@@ -1,19 +1,21 @@
-package supertaggedtests
+package supertaggedtests.tagged
 
-import org.scalatest._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 import shapeless.test.illTyped
-
 import supertagged._
+import supertagged.postfix._
+import supertaggedtests.{testRawString, userString, userStrings_5_lvl}
 
-class TestMultiTagged extends FlatSpec with Matchers {
+class MultiTagged extends AnyFlatSpec with Matchers {
 
   "Multitagging for `TopLevel`" should "work" in {
 
     val user1 = User1 @@ userString
 
-    val user1and2_1 = User2 @@ user1
-    val user1and2_2 = User2 @@ (User1 @@ userString)
-    val user1and2_3 = userString @@ User1 @@ User2
+    val user1and2_1 = User2 @@@ user1
+    val user1and2_2 = User2 @@@ (User1 @@ userString)
+    val user1and2_3 = userString @@@ User1 @@@ User2
 
 
     testMulti(user1and2_1)
@@ -23,7 +25,7 @@ class TestMultiTagged extends FlatSpec with Matchers {
     illTyped("""testMulti_123(user1and2_1)""", "type mismatch;.+")
 
 
-    val userList123_5_lvl = userStrings_5_lvl @@ User1 @@ User2 @@ User3
+    val userList123_5_lvl = userStrings_5_lvl @@ User1 @@@ User2 @@@ User3
 
 
     testMulti_123(userList123_5_lvl.head.head.head.head.head)
@@ -37,7 +39,7 @@ class TestMultiTagged extends FlatSpec with Matchers {
 
   "Replace multitag with 1 tag" should "work" in {
 
-    val user2and3 = userString @@ User2 @@ User3
+    val user2and3 = userString @@ User2 @@@ User3
 
     testUser2_extendedSignature(user2and3)
     testUser3_extendedSignature(user2and3)
@@ -53,10 +55,13 @@ class TestMultiTagged extends FlatSpec with Matchers {
 
   def testMulti(user: String @@ (User1.Tag with User2.Tag)): Unit = {
 
-    testUserRaw(user)
+    testRawString(user)
 
 
-    //Next 2 blocks both works, but have nuance (only for Multitagged)
+    /**
+      * Next 2 blocks both works, but have nuance (only for multi tagged)
+      */
+
 
     //These 2 lines will have annoying `intellij red mark`
     testUser1(user)
@@ -71,10 +76,13 @@ class TestMultiTagged extends FlatSpec with Matchers {
 
   def testMulti_123(user: String @@ (User1.Tag with User2.Tag with User3.Tag)): Unit = {
 
-    testUserRaw(user)
+    testRawString(user)
 
 
-    //Next 2 blocks both works, but have nuance (only for Multitagged)
+    /**
+      * Next 2 blocks both works, but have nuance (only for multi tagged)
+      */
+
 
     //These 3 lines will have annoying `intellij red mark`
     testUser1(user)
