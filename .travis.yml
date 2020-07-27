@@ -14,4 +14,4 @@ cache:
     - $HOME/.cache/coursier
     - $HOME/.sbt/boot
 script:
-  - sbt clean test
+  - sbt ++$TRAVIS_SCALA_VERSION clean test
