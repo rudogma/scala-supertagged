@@ -7,9 +7,12 @@ scala:
   - 2.13.3
 jdk:
   - openjdk8
+env:
+  - SCALAJS_VERSION=1.1.1
+  - SCALAJS_VERSION=0.6.33
 cache:
   directories:
     - $HOME/.cache/coursier
     - $HOME/.sbt/boot
 script:
-  - sbt test
+  - sbt clean test
