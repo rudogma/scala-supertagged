@@ -13,19 +13,29 @@ lazy val defaultSettings =
   Project.defaultSettings ++
     Compiler.defaultSettings ++
     Publish.defaultSettings ++
-    Tests.defaultSettings ++
     Console.defaultSettings
 
 lazy val supertagged = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .in(file("."))
   .settings(defaultSettings: _*)
-  .jsSettings(
-    parallelExecution in Test := false
-  )
   .nativeSettings(
     Project.moduleNativeSettings
   )
+  
+lazy val tests = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .settings(defaultSettings)
+  .settings(Tests.defaultSettings)
+  .settings(
+    publish := {},
+    publishLocal := {},
+    publishArtifact := false
+  )
+  .jsSettings(
+    Test / parallelExecution := false
+  )
+  .dependsOn(supertagged)
 
 lazy val root = project.in(file("."))
   .settings(defaultSettings: _*)
@@ -35,4 +45,4 @@ lazy val root = project.in(file("."))
     publishLocal := {},
     publishArtifact := false
   )
-  .aggregate(supertagged.jvm, supertagged.js)
+  .aggregate(supertagged.jvm, supertagged.js, tests.jvm, tests.js)

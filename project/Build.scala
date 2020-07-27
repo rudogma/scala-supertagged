@@ -47,7 +47,7 @@ object Project {
     // [error] dropping dependency on node with no phase object: mixin
     Compile / doc / sources := Seq.empty,
     Compile / test / sources := Seq.empty,
-    libraryDependencies := Seq.empty
+    Test / libraryDependencies := Seq.empty
 //    doctestGenTests := Seq.empty
   )
 }
@@ -76,7 +76,7 @@ object Compiler {
       // ++ (if (CrossVersion.partialVersion(scalaVersion.value).exists(_._2 != 13)) Seq("-Yno-adapted-args") else Seq()),
 
     scalaVersion in ThisBuild := Versions.Scala212,
-    Compile / crossScalaVersions := Versions.ScalaCross
+    crossScalaVersions := Versions.ScalaCross
   )
 }
 object Publish {
@@ -129,7 +129,7 @@ object Tests {
       "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test",
       "com.chuusai" %%% "shapeless" % "2.3.3" % "test"
     ),
-    Test / crossScalaVersions := Seq(Versions.Scala212, Versions.Scala213),
+    crossScalaVersions := Seq(Versions.Scala213, Versions.Scala212),
     excludeFilter in (Test, unmanagedSources) := {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, minor)) if minor == 13 =>
@@ -138,9 +138,6 @@ object Tests {
           HiddenFileFilter
       }
     }
-
-
-
   )
 }
 
