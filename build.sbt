@@ -21,8 +21,10 @@ lazy val supertagged = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("."))
   .settings(defaultSettings: _*)
   .jsSettings(
-    crossScalaVersions := Versions.ScalaCross,
     parallelExecution in Test := false
+  )
+  .nativeSettings(
+    Project.moduleNativeSettings
   )
 
 lazy val root = project.in(file("."))
@@ -33,8 +35,4 @@ lazy val root = project.in(file("."))
     publishLocal := {},
     publishArtifact := false
   )
-  .aggregate(supertaggedJVM, supertaggedJS)
-
-lazy val supertaggedJVM = supertagged.jvm
-lazy val supertaggedJS = supertagged.js
-lazy val supertaggedNative = supertagged.native.settings(Project.moduleNativeSettings  : _*)
+  .aggregate(supertagged.jvm, supertagged.js)

@@ -76,7 +76,7 @@ object Compiler {
       // ++ (if (CrossVersion.partialVersion(scalaVersion.value).exists(_._2 != 13)) Seq("-Yno-adapted-args") else Seq()),
 
     scalaVersion in ThisBuild := Versions.Scala212,
-    crossScalaVersions := Versions.ScalaCross
+    Compile / crossScalaVersions := Versions.ScalaCross
   )
 }
 object Publish {
@@ -129,6 +129,7 @@ object Tests {
       "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test",
       "com.chuusai" %%% "shapeless" % "2.3.3" % "test"
     ),
+    Test / crossScalaVersions := Seq(Versions.Scala212, Versions.Scala213),
     excludeFilter in (Test, unmanagedSources) := {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, minor)) if minor == 13 =>
