@@ -5,7 +5,7 @@ import sbt._
 import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 
 object Versions {
-  val Scala211 = "2.11.11"
+  val Scala211 = "2.11.12"
   val Scala212 = "2.12.12"
   val Scala213 = "2.13.3"
 
@@ -55,7 +55,7 @@ object Project {
 object Compiler {
 
   val defaultSettings = Seq(
-    scalacOptions in ThisBuild ++= Seq(
+    scalacOptions ++= Seq(
       "-deprecation",
       "-encoding", "UTF-8",
       "-feature",
@@ -67,7 +67,7 @@ object Compiler {
       "-language:higherKinds",
       "-language:experimental.macros"
     ),
-    scalacOptions in ThisBuild ++= {
+    scalacOptions ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, 13)) => List("-Ymacro-annotations")
         case _                  => List()
@@ -75,7 +75,7 @@ object Compiler {
     },
       // ++ (if (CrossVersion.partialVersion(scalaVersion.value).exists(_._2 != 13)) Seq("-Yno-adapted-args") else Seq()),
 
-    ThisBuild / scalaVersion := Versions.Scala212
+    scalaVersion := Versions.Scala212
   )
 }
 object Publish {
