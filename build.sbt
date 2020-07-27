@@ -16,9 +16,10 @@ lazy val defaultSettings =
     Console.defaultSettings
 
 lazy val supertagged = crossProject(JSPlatform, JVMPlatform, NativePlatform)
-  .crossType(CrossType.Full)
+  .crossType(CrossType.Pure)
   .in(file("."))
-  .settings(defaultSettings: _*)
+  .settings(defaultSettings)
+  .settings(NonTests.defaultSettings)
   .nativeSettings(
     Project.moduleNativeSettings
   )
@@ -38,7 +39,7 @@ lazy val tests = crossProject(JSPlatform, JVMPlatform)
   .dependsOn(supertagged)
 
 lazy val root = project.in(file("."))
-  .settings(defaultSettings: _*)
+  .settings(defaultSettings)
   .settings(
     name := "supertagged",
     publish := {},

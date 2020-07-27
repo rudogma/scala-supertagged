@@ -75,8 +75,7 @@ object Compiler {
     },
       // ++ (if (CrossVersion.partialVersion(scalaVersion.value).exists(_._2 != 13)) Seq("-Yno-adapted-args") else Seq()),
 
-    scalaVersion in ThisBuild := Versions.Scala212,
-    crossScalaVersions := Versions.ScalaCross
+    ThisBuild / scalaVersion := Versions.Scala212
   )
 }
 object Publish {
@@ -114,6 +113,12 @@ object Publish {
         Some("scm:git:ssh://github.com:Rudogma/scala-supertagged.git")
       )
     )
+  )
+}
+
+object NonTests {
+  val defaultSettings = Seq(
+    crossScalaVersions := Versions.ScalaCross
   )
 }
 
