@@ -124,7 +124,7 @@ object Tests {
       Resolver.sonatypeRepo("snapshots")
     ),
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "spire" % "0.17.0-M1" % "test",
+      "org.typelevel" %%% "spire" % "0.17.0-RC1" % "test",
       "org.scalatest" %%% "scalatest" % "3.1.2" % "test",
       "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test",
       "com.chuusai" %%% "shapeless" % "2.3.3" % "test"
