@@ -6,8 +6,8 @@ import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 
 object Versions {
   val Scala211 = "2.11.11"
-  val Scala212 = "2.12.10"
-  val Scala213 = "2.13.1"
+  val Scala212 = "2.12.12"
+  val Scala213 = "2.13.3"
 
   val VERSION = "2.0-RC1"
 

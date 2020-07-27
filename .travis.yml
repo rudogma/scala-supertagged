@@ -1,11 +1,15 @@
+os: linux
+dist: bionic
 language: scala
 scala:
   - 2.11.11
-  - 2.12.11
-  - 2.13.2
+  - 2.12.12
+  - 2.13.3
 jdk:
-  - oraclejdk8
+  - openjdk8
 cache:
   directories:
-    - $HOME/.ivy2/cache
+    - $HOME/.cache/coursier
     - $HOME/.sbt/boot
+script:
+  - sbt test
