@@ -26,6 +26,10 @@ package object newtypes {
   type CounterLong_NT = CounterLong_NT.Type
 
 
+  object JavaLong extends NewType[java.lang.Long] with LiftedOrdering
+  type JavaLong = JavaLong.Type
+
+
 
 
 

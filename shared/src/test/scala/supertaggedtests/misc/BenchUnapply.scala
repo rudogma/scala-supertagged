@@ -3,6 +3,7 @@ package supertaggedtests.misc
 import java.util
 
 import spire.syntax.cfor
+import supertaggedtests.newtypes.{CounterLong_NT, JavaLong}
 
 import scala.concurrent.duration._
 import scala.util.Random
@@ -41,6 +42,7 @@ object BenchUnapply extends App {
 
   var intLimit = 10 * 1000 * 1000
   var longArray:Array[Long] = (0 until intLimit).map(i => i.toLong).toArray
+  var longArrayBoxed:Array[java.lang.Long] = (0 until intLimit).map(i => new java.lang.Long(i)).toArray
 
 
   var total:Long = 0L
@@ -55,6 +57,7 @@ object BenchUnapply extends App {
 
     while( i < intLimit){
       val longValue:LongValue = arr(i)
+
       val result:Long = longValue match {
         case LongValue(v) => v % 2
       }
@@ -66,4 +69,43 @@ object BenchUnapply extends App {
   }
 
   println(s"total=${total}")
+
+  total = 0
+  bench("Bench without unapply", 5, 300.millis){ index =>
+
+    import supertaggedtests.tagged.LongValue
+
+    val arr = LongValue @@ longArray
+
+    var i = 0
+
+    while( i < intLimit){
+      val longValue:LongValue = arr(i)
+      val result:Long = (longValue:Long) match {
+        case v => v % 2
+      }
+
+      total += result
+      i += 1
+    }
+
+  }
+
+
+  total = 0
+  bench("Bench with newtype", 5, 300.millis){ index =>
+
+    val arr = JavaLong @@ longArrayBoxed
+
+    var i = 0
+
+    while( i < intLimit){
+      val longValue:JavaLong = arr(i)
+      val result:Long = JavaLong.raw(longValue) % 2
+
+      total += result
+      i += 1
+    }
+
+  }
 }

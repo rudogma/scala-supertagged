@@ -84,6 +84,14 @@ class LiftTypeclasses extends AnyFlatSpec with Matchers {
 
   }
 
+  "it" should "work" in {
+
+    val v3 = Item3 @@ longValue
+
+    show(v3)(Item3.liftedShow) shouldBe "Long: 30"
+
+  }
+
 
 
 
@@ -187,5 +195,17 @@ object LiftTypeclasses {
 
   object Item2 extends TaggedType[Long]
   type Item2 = Item2.Type
+
+
+  trait LiftedShow {
+    type Raw
+    type Tag <: this.type
+
+    implicit def liftedShow(implicit f:Show[Raw]):Show[Raw @@ Tag] = supertagged.lift.LiftF[Show].lift
+  }
+
+  object Item3 extends TaggedType[Long] with LiftedShow
+  type Item3 = Item3.Type
+
 
 }
