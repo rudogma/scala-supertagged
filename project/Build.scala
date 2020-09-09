@@ -5,9 +5,9 @@ import sbt._
 import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 
 object Versions {
-  val Scala211 = "2.11.11"
-  val Scala212 = "2.12.10"
-  val Scala213 = "2.13.1"
+  val Scala211 = "2.11.12"
+  val Scala212 = "2.12.12"
+  val Scala213 = "2.13.3"
 
   val VERSION = "2.0-RC1"
 
@@ -47,7 +47,7 @@ object Project {
     // [error] dropping dependency on node with no phase object: mixin
     Compile / doc / sources := Seq.empty,
     Compile / test / sources := Seq.empty,
-    libraryDependencies := Seq.empty
+    Test / libraryDependencies := Seq.empty
 //    doctestGenTests := Seq.empty
   )
 }
@@ -55,7 +55,7 @@ object Project {
 object Compiler {
 
   val defaultSettings = Seq(
-    scalacOptions in ThisBuild ++= Seq(
+    scalacOptions ++= Seq(
       "-deprecation",
       "-encoding", "UTF-8",
       "-feature",
@@ -67,7 +67,7 @@ object Compiler {
       "-language:higherKinds",
       "-language:experimental.macros"
     ),
-    scalacOptions in ThisBuild ++= {
+    scalacOptions ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, 13)) => List("-Ymacro-annotations")
         case _                  => List()
@@ -75,8 +75,7 @@ object Compiler {
     },
       // ++ (if (CrossVersion.partialVersion(scalaVersion.value).exists(_._2 != 13)) Seq("-Yno-adapted-args") else Seq()),
 
-    scalaVersion in ThisBuild := Versions.Scala212,
-    crossScalaVersions := Versions.ScalaCross
+    scalaVersion := Versions.Scala212
   )
 }
 object Publish {
@@ -117,6 +116,12 @@ object Publish {
   )
 }
 
+object NonTests {
+  val defaultSettings = Seq(
+    crossScalaVersions := Versions.ScalaCross
+  )
+}
+
 object Tests {
   val defaultSettings = Seq(
     resolvers ++= Seq(
@@ -124,11 +129,12 @@ object Tests {
       Resolver.sonatypeRepo("snapshots")
     ),
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "spire" % "0.17.0-M1" % "test",
-      "org.scalatest" %%% "scalatest" % "3.1.0" % "test",
-      "org.scalacheck" %%% "scalacheck" % "1.14.2" % "test",
+      "org.typelevel" %%% "spire" % "0.17.0-RC1" % "test",
+      "org.scalatest" %%% "scalatest" % "3.1.2" % "test",
+      "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test",
       "com.chuusai" %%% "shapeless" % "2.3.3" % "test"
     ),
+    crossScalaVersions := Seq(Versions.Scala213, Versions.Scala212),
     excludeFilter in (Test, unmanagedSources) := {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, minor)) if minor == 13 =>
@@ -137,9 +143,6 @@ object Tests {
           HiddenFileFilter
       }
     }
-
-
-
   )
 }
 
