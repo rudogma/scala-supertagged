@@ -1,7 +1,7 @@
 val scalaJSVersion = sys.env.get("SCALAJS_VERSION").getOrElse("1.1.1")
 val scalaNativeVersion = sys.env.get("SCALANATIVE_VERSION").getOrElse("0.4.0-M2")
 
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.3")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.4")
 
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.10")
 

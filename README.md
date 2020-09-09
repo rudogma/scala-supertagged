@@ -32,16 +32,18 @@ Tagged & Newtypes - the better and much friendlier alternative to AnyVals.
 # SBT
 
 Scala: 
-- 2.11.x (built with 2.11.11)
+- 2.11.x (built with 2.11.12)
 - 2.12.x (built with 2.12.12)
 - 2.13.x (built with 2.13.3)
 ```scala
-libraryDependencies += "org.rudogma" %% "supertagged" % "2.0-RC1"
+libraryDependencies += "org.rudogma" %% "supertagged" % "2.0-RC2"
 ```
 
-ScalaJS (built with 0.6.32)
+ScalaJS 
+- 0.6.х (built with 0.6.33)
+- 1.х (built with 1.1.1)
 ```scala
-libraryDependencies += "org.rudogma" %%% "supertagged" % "2.0-RC1"
+libraryDependencies += "org.rudogma" %%% "supertagged" % "2.0-RC2"
 ```
 
 # Contents

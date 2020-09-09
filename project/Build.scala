@@ -9,7 +9,7 @@ object Versions {
   val Scala212 = "2.12.12"
   val Scala213 = "2.13.3"
 
-  val VERSION = "2.0-RC1"
+  val VERSION = "2.0-RC2"
 
   val ScalaCross = Seq(Scala213, Scala212, Scala211)
 
