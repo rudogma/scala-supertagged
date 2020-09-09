@@ -24,7 +24,7 @@ Tagged & Newtypes - the better and much friendlier alternative to AnyVals.
     - Basic blocks for building custom screnarious (ex: runtime refined)
     
 
-- **Zero-dependcy**
+- **Zero-dependency**
 - **Micro size**
 - **Intellij Idea compatible 100% (`red marks` free)**
 
