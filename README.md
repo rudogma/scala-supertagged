@@ -33,8 +33,8 @@ Tagged & Newtypes - the better and much friendlier alternative to AnyVals.
 
 Scala: 
 - 2.11.x (built with 2.11.11)
-- 2.12.x (built with 2.12.10)
-- 2.13.x (built with 2.13.1)
+- 2.12.x (built with 2.12.12)
+- 2.13.x (built with 2.13.3)
 ```scala
 libraryDependencies += "org.rudogma" %% "supertagged" % "2.0-RC1"
 ```

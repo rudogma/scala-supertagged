@@ -1,10 +1,17 @@
+os: linux
+dist: bionic
 language: scala
 scala:
-  - 2.11.11
-  - 2.12.2
+  - 2.12.12
+  - 2.13.3
 jdk:
-  - oraclejdk8
+  - openjdk8
+env:
+  - SCALAJS_VERSION=1.1.1
+  - SCALAJS_VERSION=0.6.33
 cache:
   directories:
-    - $HOME/.ivy2/cache
+    - $HOME/.cache/coursier
     - $HOME/.sbt/boot
+script:
+  - sbt clean ++$TRAVIS_SCALA_VERSION test

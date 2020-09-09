@@ -13,35 +13,37 @@ lazy val defaultSettings =
   Project.defaultSettings ++
     Compiler.defaultSettings ++
     Publish.defaultSettings ++
-    Tests.defaultSettings ++
     Console.defaultSettings
 
 lazy val supertagged = crossProject(JSPlatform, JVMPlatform, NativePlatform)
-  .crossType(CrossType.Full)
+  .crossType(CrossType.Pure)
   .in(file("."))
-  .settings(defaultSettings: _*)
-  .jsSettings(
-    crossScalaVersions := Versions.ScalaCross,
-    parallelExecution in Test := false
+  .settings(defaultSettings)
+  .settings(NonTests.defaultSettings)
+  .nativeSettings(
+    Project.moduleNativeSettings
   )
+  
+lazy val tests = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .settings(defaultSettings)
+  .settings(Tests.defaultSettings)
+  .settings(
+    publish := {},
+    publishLocal := {},
+    publishArtifact := false
+  )
+  .jsSettings(
+    Test / parallelExecution := false
+  )
+  .dependsOn(supertagged)
 
 lazy val root = project.in(file("."))
-  .settings(defaultSettings: _*)
+  .settings(defaultSettings)
   .settings(
     name := "supertagged",
     publish := {},
     publishLocal := {},
     publishArtifact := false
   )
-  .aggregate(supertaggedJVM, supertaggedJS)
-
-lazy val supertaggedJVM = supertagged.jvm
-lazy val supertaggedJS = supertagged.js
-lazy val supertaggedNative = supertagged.native.settings(Project.moduleNativeSettings  : _*)
-
-/*
- * Uncomment, if You need scala.native version and manually publish it locally
- */
-//lazy val supertaggedNative = supertagged.native.settings(
-//  sources in (Compile,doc) := Seq.empty
-//)
+  .aggregate(supertagged.jvm, supertagged.js, tests.jvm, tests.js)
