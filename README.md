@@ -71,8 +71,8 @@ libraryDependencies += "org.rudogma" %%% "supertagged" % "2.0-RC2"
 # Bytecode
 
 For those who want to check bytecode, have a look at
-- [ShowMeByteCode.scala](https://github.com/Rudogma/scala-supertagged/blob/master/shared/src/test/scala/supertaggedtests/misc/ShowMeByteCode.scala)
-- [ShowMeByteCode.javap.txt](https://github.com/Rudogma/scala-supertagged/blob/master/shared/src/test/scala/supertaggedtests/misc/ShowMeByteCode.javap.txt)
+- [ShowMeByteCode.scala](https://github.com/rudogma/scala-supertagged/blob/master/tests/src/test/scala/supertaggedtests/misc/ShowMeByteCode.scala)
+- [ShowMeByteCode.javap.txt](https://github.com/rudogma/scala-supertagged/blob/master/tests/src/test/scala/supertaggedtests/misc/ShowMeByteCode.javap.txt)
 
 
 
