@@ -89,7 +89,7 @@ package object supertagged {
     /**
      * Thanks @eld0727 from https://t.me/scala_ru for feature request
      */
-    final def unapply(v: Type): Option[T] = Some(v)
+    final def unapply(v: Type): Some[T] = Some(v)
 
 
     final def untag[C](c:C)(implicit R:Remove[C,T,Tag]):R.Out = unsafeCast(c)
@@ -194,7 +194,7 @@ package object supertagged {
 
     @inline final def raw(c:Type):T = unsafeCast(c)
 
-    @inline final def unapply(v: Type): Option[T] = Some(v.asInstanceOf[T])
+    @inline final def unapply(v: Type): Some[T] = Some(v.asInstanceOf[T])
 
     @inline def lift[F[_]](implicit F:F[T]):F[Type] = unsafeCast(F)
   }
@@ -224,7 +224,7 @@ package object supertagged {
     /**
       * Potentially unsafe if you will use it elsewhere except `match` block
       */
-    final def unapply(b:T):Option[Raw] = Some(unsafeCast(b))
+    final def unapply(b:T):Some[Raw] = Some(unsafeCast(b))
   }
   object Extractor {
     private val stub = new Extractor[Any,Any]()
